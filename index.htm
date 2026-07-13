@@ -556,7 +556,7 @@
             }
         }
 
-        // ロボットへコンパイル可能な中間データ、またはソースそのものを転送する関数
+// 【修正版】ロボットへデータを転送する関数
         async function sendToRobot() {
             if (!serialWriter) {
                 alert("先にロボットをシリアル接続してください。");
@@ -565,8 +565,6 @@
             
             logTerminal("System: Starting data stream transfer pipeline...");
             
-            // 構築したブロックをロボット側が解析しやすいシリアルデータ(プロトコル)に展開して1件ずつ送信
-            // ロボット側は「受け取ってメモリ(EEPROM等)に順に保存する」受信スケッチが動作している前提
             try {
                 // 送信開始シグナル
                 await txRawString("START_X_UPLOAD\n");
@@ -595,15 +593,15 @@
                     } else if (b.type === 'led') {
                         cmdStr = `L:${b.r1}:${b.r2}:${b.r3}:${b.g}`;
                     } else if (b.type === 'variable') {
-                        // 文字列からスペースを除く
                         let expression = b.expr.replace(/\s+/g, '');
                         cmdStr = `V:${b.target}:${b.op}:${expression}`;
                     }
 
                     if(cmdStr !== "") {
                         await txRawString(cmdStr + "\n");
-                        logTerminal(`Transmitted line ${index+1}: ${cmdStr}`);
-                        await new Promise(r => setTimeout(r, 60)); // マイコン側の受信バッファ溢れ防止のウェイト
+                        // ↓【ココを修正】 index+1 だったのを i+1 に直しました
+                        logTerminal(`Transmitted line ${i + 1}: ${cmdStr}`);
+                        await new Promise(r => setTimeout(r, 60)); 
                     }
                 }
 
@@ -616,7 +614,6 @@
                 logTerminal("Transfer Failed: " + e.message);
             }
         }
-
         // 生の文字列をエンコードしてシリアルポートへ流す非同期ヘルパー
         async function txRawString(str) {
             if (serialWriter) {
