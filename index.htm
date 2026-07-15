@@ -6,101 +6,354 @@
     <title>Style-X - NextGen Robot Programming Platform</title>
     <style>
       :root {
-          --bg-dark: #0b0f19;
-          --bg-panel: #161b26;
-          --bg-block: #1f2637;
-          --border-color: #2d3748;
-          --text-main: #f7fafc;
-          --text-muted: #a0aec0;
+        --bg-dark: #070a13;
+        --bg-panel: #111622;
+        --bg-block: #1a2130;
+        --border-color: #263147;
+        --text-main: #f1f5f9;
+        --text-muted: #64748b;
 
-          /* 各種ブロックのカラーテーマ（C-Style & サイバーテイスト） */
-          --color-motor: #3182ce;
-          --color-control: #dd6b20;
-          --color-led: #9b2c2c;
-          --color-var: #2c7a7b;
-          --color-wait: #d69e2e;
-          --color-terminal: #1a202c;
+        /* サイバーネオンカラーテーマ */
+        --color-motor: #008bf8;
+        --color-control: #ff8800;
+        --color-led: #ff0055;
+        --color-var: #00f5d4;
+        --color-wait: #fee440;
+        --color-terminal: #05070c;
+        --neon-glow: 0 0 15px rgba(0, 229, 255, 0.4);
       }
 
-      * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-      body { background-color: var(--bg-dark); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+      }
+      body {
+        background-color: var(--bg-dark);
+        color: var(--text-main);
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
 
       /* ヘッダー */
-      header { background-color: var(--bg-panel); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color); }
-      .logo { font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: 2px; }
-      .logo span { color: #00e5ff; text-shadow: 0 0 10px rgba(0,229,255,0.5); }
-      .nav-actions { display: flex; gap: 12px; }
+      header {
+        background-color: var(--bg-panel);
+        padding: 12px 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--border-color);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+      .logo {
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: var(--text-main);
+        letter-spacing: 2px;
+      }
+      .logo span {
+        color: #00e5ff;
+        text-shadow: var(--neon-glow);
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-      /* ボタン共通 */
-      .btn { padding: 10px 18px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; }
-      .btn-active { background: linear-gradient(135deg, #00e5ff, #008bf8); color: #000; box-shadow: 0 0 15px rgba(0,229,255,0.3); }
-      .btn-active:hover { transform: translateY(-1px); box-shadow: 0 0 20px rgba(0,229,255,0.5); }
-      .btn-secondary { background-color: var(--bg-block); color: var(--text-main); border: 1px solid var(--border-color); }
-      .btn-secondary:hover { background-color: var(--border-color); }
+      /* ボタン共通デザイン */
+      .btn {
+        padding: 9px 15px;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+      }
+      .btn-active {
+        background: linear-gradient(135deg, #00e5ff, #008bf8);
+        color: #000;
+        box-shadow: var(--neon-glow);
+      }
+      .btn-active:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 0 25px rgba(0, 229, 255, 0.7);
+      }
+      .btn-secondary {
+        background-color: var(--bg-block);
+        color: var(--text-main);
+        border: 1px solid var(--border-color);
+      }
+      
+      /* ボタン個別ネオンエフェクト */
+      .btn-hex { border-color: #f1c40f; color: #f1c40f; }
+      .btn-hex:hover { background-color: rgba(241, 196, 15, 0.15); box-shadow: 0 0 10px rgba(241, 196, 15, 0.3); }
+      
+      .btn-load { border-color: #a855f7; color: #c084fc; }
+      .btn-load:hover { background-color: rgba(168, 85, 247, 0.15); box-shadow: 0 0 10px rgba(168, 85, 247, 0.3); }
+      
+      .btn-save { border-color: #06b6d4; color: #22d3ee; }
+      .btn-save:hover { background-color: rgba(6, 182, 212, 0.15); box-shadow: 0 0 10px rgba(6, 182, 212, 0.3); }
+      
+      .btn-cfile { border-color: #22c55e; color: #4ade80; }
+      .btn-cfile:hover { background-color: rgba(34, 197, 94, 0.15); box-shadow: 0 0 10px rgba(34, 197, 94, 0.3); }
+      
+      .btn-secondary:hover:not(.btn-hex):not(.btn-load):not(.btn-save):not(.btn-cfile) {
+        background-color: var(--border-color);
+        border-color: #3b4e75;
+      }
+
+      /* サイバー区切り線 */
+      .nav-divider {
+        width: 2px;
+        height: 22px;
+        background-color: var(--border-color);
+        margin: 0 4px;
+      }
 
       /* メインコンテナ */
-      .container { display: flex; flex: 1; overflow: hidden; }
+      .container {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+      }
 
       /* パレットエリア（左） */
-      .palette { width: 300px; background-color: var(--bg-panel); border-right: 2px solid var(--border-color); padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
-      .category { display: flex; flex-direction: column; gap: 8px; }
-      .category-title { font-size: 0.8rem; font-weight: bold; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-      .palette-btn { width: 100%; text-align: left; padding: 12px; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; transition: transform 0.1s; display: flex; justify-content: space-between; }
-      .palette-btn:active { transform: scale(0.98); }
+      .palette {
+        width: 300px;
+        background-color: var(--bg-panel);
+        border-right: 2px solid var(--border-color);
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .category {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .category-title {
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 4px;
+      }
+      .palette-btn {
+        width: 100%;
+        text-align: left;
+        padding: 12px 16px;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+      }
+      .palette-btn:hover {
+        filter: brightness(1.1);
+        transform: translateX(2px);
+      }
+      .palette-btn:active {
+        transform: scale(0.98);
+      }
       .p-motor { background-color: var(--color-motor); }
       .p-control { background-color: var(--color-control); }
       .p-led { background-color: var(--color-led); }
-      .p-var { background-color: var(--color-var); }
-      .p-wait { background-color: var(--color-wait); }
+      .p-var { background-color: var(--color-var); color: #000; }
+      .p-wait { background-color: var(--color-wait); color: #000; }
 
       /* ワークスペースエリア（中央） */
-      .workspace { flex: 1; padding: 25px; overflow-y: auto; background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 0); background-size: 24px 24px; display: flex; flex-direction: column; gap: 8px; position: relative; }
-      .ws-empty { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: var(--text-muted); pointer-events: none; }
+      .workspace {
+        flex: 1;
+        padding: 25px;
+        overflow-y: auto;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1.5px, transparent 0);
+        background-size: 30px 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        position: relative;
+        background-color: #0c0f17;
+      }
+      .ws-empty {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: var(--text-muted);
+        pointer-events: none;
+      }
 
       /* ブロック基本デザイン */
-      .block { background-color: var(--bg-block); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: margin-left 0.2s ease; width: 100%; max-width: 800px; }
-      .block-core { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: bold; font-size: 0.95rem; }
-      .block-label { background-color: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; }
+      .block {
+        background-color: var(--bg-block);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: margin-left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 100%;
+        max-width: 850px;
+      }
+      .block-core {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-weight: bold;
+        font-size: 0.95rem;
+      }
+      .block-label {
+        background-color: rgba(0, 0, 0, 0.3);
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+      }
 
-      /* ブロックごとの左ラインアクセント */
+      /* ブロックアクセントライン */
       .b-motor { border-left: 6px solid var(--color-motor); }
       .b-control { border-left: 6px solid var(--color-control); }
       .b-led { border-left: 6px solid var(--color-led); }
       .b-var { border-left: 6px solid var(--color-var); }
       .b-wait { border-left: 6px solid var(--color-wait); }
 
-      /* 各種入力フォーム */
-      .input-text { background-color: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; padding: 6px 10px; border-radius: 4px; font-weight: bold; text-align: center; outline: none; }
+      /* 入力フォーム */
+      .input-text {
+        background-color: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--border-color);
+        color: white;
+        padding: 6px 10px;
+        border-radius: 4px;
+        font-weight: bold;
+        text-align: center;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .input-text:focus {
+        border-color: #00e5ff;
+      }
       .input-num { width: 65px; }
-      .input-long { width: 140px; text-align: left; }
-      .select-custom { background-color: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; padding: 6px 8px; border-radius: 4px; font-weight: bold; outline: none; cursor: pointer; }
+      .input-long { width: 160px; text-align: left; font-family: monospace; }
+      .select-custom {
+        background-color: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--border-color);
+        color: white;
+        padding: 6px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+      }
+      .select-custom:focus {
+        border-color: #00e5ff;
+      }
 
-      /* ブロック操作系 */
-      .block-ctrls { display: flex; gap: 6px; }
-      .btn-ctrl { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; font-size: 1.1rem; border-radius: 4px; }
-      .btn-ctrl:hover { color: white; background-color: rgba(255,255,255,0.1); }
+      /* 操作系 */
+      .block-ctrls {
+        display: flex;
+        gap: 4px;
+      }
+      .btn-ctrl {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 6px;
+        font-size: 1rem;
+        border-radius: 4px;
+        transition: all 0.1s;
+      }
+      .btn-ctrl:hover {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.08);
+      }
 
-      /* 右パネル（コード & ターミナル） */
-      .right-panel { width: 420px; background-color: var(--bg-panel); border-left: 2px solid var(--border-color); display: flex; flex-direction: column; }
-      .panel-tab { padding: 12px 20px; background-color: rgba(0,0,0,0.2); font-size: 0.85rem; font-weight: bold; border-bottom: 1px solid var(--border-color); color: var(--text-muted); display: flex; justify-content: space-between; }
-      .code-area { flex: 1; padding: 20px; font-family: 'Consolas', monospace; font-size: 0.9rem; line-height: 1.5; color: #e2e8f0; overflow-y: auto; white-space: pre; background-color: #0d1117; }
-      .terminal-area { height: 250px; background-color: var(--color-terminal); border-top: 2px solid var(--border-color); display: flex; flex-direction: column; }
-      .terminal-log { flex: 1; padding: 15px; font-family: 'Consolas', monospace; font-size: 0.85rem; color: #4ade80; overflow-y: auto; }
+      /* 右パネル */
+      .right-panel {
+        width: 450px;
+        background-color: var(--bg-panel);
+        border-left: 2px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+      }
+      .panel-tab {
+        padding: 12px 20px;
+        background-color: rgba(0, 0, 0, 0.3);
+        font-size: 0.8rem;
+        font-weight: 800;
+        border-bottom: 1px solid var(--border-color);
+        color: #94a3b8;
+        display: flex;
+        justify-content: space-between;
+        letter-spacing: 1px;
+      }
+      .code-area {
+        flex: 1;
+        padding: 20px;
+        font-family: 'Consolas', monospace;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: #cbd5e1;
+        overflow-y: auto;
+        white-space: pre;
+        background-color: #090d16;
+      }
+      .terminal-area {
+        height: 280px;
+        background-color: var(--color-terminal);
+        border-top: 2px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+      }
+      .terminal-log {
+        flex: 1;
+        padding: 15px;
+        font-family: 'Consolas', monospace;
+        font-size: 0.85rem;
+        color: #4ade80;
+        overflow-y: auto;
+        line-height: 1.4;
+      }
     </style>
   </head>
   <body>
     <header>
-      <div class="logo">
-        Style-
-        <span>X</span>
-      </div>
+      <div class="logo">Style-<span>X</span></div>
       <div class="nav-actions">
+        <!-- プロジェクト管理（ローカルファイル & インフラ） -->
+        <button class="btn btn-secondary btn-hex" onclick="downloadHexFile()">📦 FW保存(.hex)</button>
+        <button class="btn btn-secondary btn-load" onclick="triggerLoadXSY()">📂 プロジェクト読込</button>
+        <button class="btn btn-secondary btn-save" onclick="saveXSYFile()">💾 セーブ(.xsy)</button>
+        <input type="file" id="xsyFileInput" accept=".xsy" style="display:none;" onchange="loadXSYFile(this)">
+        
+        <div class="nav-divider"></div>
+        
+        <!-- 機体制御 & ソースコード生成 -->
         <button class="btn btn-secondary" onclick="clearWorkspace()">クリア</button>
         <button class="btn btn-secondary" onclick="toggleSerialConnection()" id="connBtn">🔌 シリアル接続</button>
         <button class="btn btn-active" onclick="sendToRobot()">⚡ ロボットへ転送</button>
-        <button class="btn btn-secondary" style="border-color:#27ae60;" onclick="downloadCFile()">
-          💾 Cファイル保存
-        </button>
+        <button class="btn btn-secondary btn-cfile" onclick="downloadCFile()">💾 Cファイル保存</button>
       </div>
     </header>
 
@@ -134,7 +387,7 @@
             <span>+</span>
           </button>
           <button class="palette-btn p-control" onclick="addBlock('while')">
-            While 無限ループ
+            While ループ開始
             <span>+</span>
           </button>
           <button class="palette-btn p-control" onclick="addBlock('endwhile')">
@@ -178,9 +431,9 @@
         </div>
       </div>
 
-      <!-- 右：コード出力 & ターミナル -->
+      <!-- 右パネル：コード出力 & ターミナル -->
       <div class="right-panel">
-        <div class="panel-tab"><span>PREVIEW: robot_program.c</span></div>
+        <div class="panel-tab"><span>PREVIEW: D18_User.c (大仙ネイティブ互換)</span></div>
         <div class="code-area" id="codeText"></div>
 
         <div class="terminal-area">
@@ -194,624 +447,646 @@
     </div>
 
     <script>
-              // グローバルアプリケーション状態
-              let programData = [];
-              let serialPort = null;
-              let serialWriter = null;
-              let serialReader = null;
-              let keepReading = false;
+      // グローバル状態定義
+      let programData = []; //[cite: 4]
+      let serialPort = null; //[cite: 4]
+      let serialWriter = null; //[cite: 4]
+      let serialReader = null; //[cite: 4]
+      let keepReading = false; //[cite: 4]
 
-              // 初期構築用のブロック生成
-              function addBlock(type) {
-                  let block = { id: 'block_' + Date.now() + Math.floor(Math.random()*100), type: type };
+      // 大仙仕様：AからZまでの26変数を生成[cite: 1]
+      const ALL_VARS = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 
-                  // 各種ブロック専用の初期パラメータ割り当て
-                  if (type === 'motor') {
-                      block.left = 50; block.right = 50;
-                  } else if (type === 'if' || type === 'elseif') {
-                      block.condType = 'sensor'; block.sensorNum = 1; block.op = '>'; block.val = 500;
-                      block.angle = 180; block.range = 15; block.varName = 'A'; block.varOp = '=='; block.varVal = 0;
-                  } else if (type === 'led') {
-                      block.r1 = 0; block.r2 = 0; block.r3 = 0; block.g = 0;
-                  } else if (type === 'variable') {
-                      block.target = 'A'; block.op = '='; block.expr = 'cn1 + 10';
-                  } else if (type === 'delay') {
-                      block.time = 1.00;
+      // ブロック生成・初期化パラメータ[cite: 4]
+      function addBlock(type) {
+        let block = { id: 'block_' + Date.now() + Math.floor(Math.random() * 100), type: type }; //[cite: 4]
+
+        if (type === 'motor') {
+          block.left = 50; block.right = 50; //[cite: 4]
+        } else if (type === 'if' || type === 'elseif') {
+          block.condType = 'sensor'; block.sensorNum = 1; block.op = '>'; block.val = 500; //[cite: 4]
+          block.angle = 180; block.range = 15; block.varName = 'A'; block.varOp = '=='; block.varVal = 0; //[cite: 4]
+        } else if (type === 'led') {
+          // 大仙LED仕様：1(ON), 0(OFF), 3(そのまま)[cite: 1]
+          block.r1 = 1; block.r2 = 1; block.r3 = 0; block.g = 0;
+        } else if (type === 'variable') {
+          block.target = 'A'; block.op = '='; block.expr = 'cn1 + 10'; //[cite: 4]
+        } else if (type === 'delay') {
+          block.time = 1.00; //[cite: 4]
+        }
+
+        programData.push(block); //[cite: 4]
+        updateWorkspace(); //[cite: 4]
+      }
+
+      // 値の更新[cite: 4]
+      function updateValue(id, key, value) {
+        let target = programData.find(b => b.id === id); //[cite: 4]
+        if (target) {
+          if (key === 'left' || key === 'right') {
+            let v = parseInt(value); //[cite: 4]
+            if (isNaN(v)) v = 0; if (v > 100) v = 100; if (v < -100) v = -100; //[cite: 4]
+            target[key] = v; //[cite: 4]
+          } else if (key === 'time') {
+            let v = parseFloat(value); //[cite: 4]
+            if (isNaN(v) || v < 0) v = 0; //[cite: 4]
+            target[key] = v; //[cite: 4]
+          } else {
+            target[key] = value; //[cite: 4]
+          }
+          generateCCode(); // 変更時にコードプレビューをリアルタイム更新[cite: 4]
+        }
+      }
+
+      function removeBlock(index) {
+        programData.splice(index, 1); //[cite: 4]
+        updateWorkspace(); //[cite: 4]
+      }
+
+      function moveUp(index) {
+        if (index > 0) { //[cite: 4]
+          let temp = programData[index]; //[cite: 4]
+          programData[index] = programData[index - 1]; //[cite: 4]
+          programData[index - 1] = temp; //[cite: 4]
+          updateWorkspace(); //[cite: 4]
+        }
+      }
+
+      function moveDown(index) {
+        if (index < programData.length - 1) { //[cite: 4]
+          let temp = programData[index]; //[cite: 4]
+          programData[index] = programData[index + 1]; //[cite: 4]
+          programData[index + 1] = temp; //[cite: 4]
+          updateWorkspace(); //[cite: 4]
+        }
+      }
+
+      function clearWorkspace() {
+        if (confirm("ワークスペース内のすべてのブロックを削除しますか？")) { //[cite: 4]
+          programData = []; //[cite: 4]
+          updateWorkspace(); //[cite: 4]
+        }
+      }
+
+      // ワークスペースの動的レンダリング[cite: 4]
+      function updateWorkspace() {
+        const ws = document.getElementById('workspace'); //[cite: 4]
+        const emptyMsg = document.getElementById('emptyMsg'); //[cite: 4]
+
+        const blocks = ws.querySelectorAll('.block'); //[cite: 4]
+        blocks.forEach(b => b.remove()); //[cite: 4]
+
+        if (programData.length === 0) {
+          emptyMsg.style.display = 'block'; //[cite: 4]
+          generateCCode(); //[cite: 4]
+          return;
+        }
+        emptyMsg.style.display = 'none'; //[cite: 4]
+
+        let currentIndent = 0; //[cite: 4]
+
+        programData.forEach((b, index) => {
+          if (b.type === 'endif' || b.type === 'endwhile') {
+            currentIndent = Math.max(0, currentIndent - 1); //[cite: 4]
+          }
+          let rowIndent = currentIndent; //[cite: 4]
+          if (b.type === 'else' || b.type === 'elseif') {
+            rowIndent = Math.max(0, currentIndent - 1); //[cite: 4]
+          }
+
+          const blockDiv = document.createElement('div'); //[cite: 4]
+          blockDiv.className = `block b-${getBlockCategory(b.type)}`; //[cite: 4]
+          blockDiv.style.marginLeft = `${rowIndent * 24}px`; //[cite: 4]
+
+          let inner = `<div class="block-core">`; //[cite: 4]
+
+          if (b.type === 'motor') {
+            inner += `<span class="block-label" style="background:var(--color-motor)">モーター制御</span>
+              <span>左速度:</span><input type="number" class="input-text input-num" value="${b.left}" oninput="updateValue('${b.id}','left',this.value)"><span>%</span>
+              <span>右速度:</span><input type="number" class="input-text input-num" value="${b.right}" oninput="updateValue('${b.id}','right',this.value)"><span>%</span>`; //[cite: 4]
+          }
+          else if (b.type === 'if' || b.type === 'elseif') {
+            inner += `<span class="block-label" style="background:var(--color-control); text-transform:uppercase;">${b.type} 条件分岐</span>
+              <select class="select-custom" onchange="updateValue('${b.id}','condType',this.value); updateWorkspace();">
+                <option value="sensor" ${b.condType==='sensor'?'selected':''}>センサーチェック</option>
+                <option value="compass" ${b.condType==='compass'?'selected':''}>コンパスチェック</option>
+                <option value="variable" ${b.condType==='variable'?'selected':''}>変数チェック</option>
+              </select>`; //[cite: 4]
+
+            if (b.condType === 'sensor') {
+              inner += `<span>ポート: CN</span><select class="select-custom" onchange="updateValue('${b.id}','sensorNum',this.value)">`; //[cite: 4]
+              for (let s = 1; s <= 10; s++) inner += `<option value="${s}" ${b.sensorNum==s?'selected':''}>${s}</option>`;
+              inner += `</select>
+                <select class="select-custom" onchange="updateValue('${b.id}','op',this.value)">
+                  <option value=">" ${b.op==='>'?'selected':''}>&gt;</option>
+                  <option value="<" ${b.op==='<'?'selected':''}>&lt;</option>
+                  <option value="==" ${b.op==='=='?'selected':''}>==</option>
+                </select>
+                <input type="number" class="input-text input-num" value="${b.val}" oninput="updateValue('${b.id}','val',this.value)">`; //[cite: 4]
+            } else if (b.condType === 'compass') {
+              inner += `<span>目標角度:</span><input type="number" class="input-text input-num" value="${b.angle}" oninput="updateValue('${b.id}','angle',this.value)"><span>度</span>
+                <span>許容誤差: ±</span><input type="number" class="input-text input-num" value="${b.range}" oninput="updateValue('${b.id}','range',this.value)"><span>度</span>`; //[cite: 4]
+            } else if (b.condType === 'variable') {
+              inner += `<span>変数</span><select class="select-custom" onchange="updateValue('${b.id}','varName',this.value)">`; //[cite: 4]
+              ALL_VARS.forEach(v => inner += `<option value="${v}" ${b.varName===v?'selected':''}>${v}</option>`);
+              inner += `</select>
+                <select class="select-custom" onchange="updateValue('${b.id}','varOp',this.value)">
+                  <option value="==" ${b.varOp==='=='?'selected':''}>==</option>
+                  <option value="!=" ${b.varOp==='!='?'selected':''}>!=</option>
+                  <option value=">" ${b.varOp==='>'?'selected':''}>&gt;</option>
+                  <option value="<" ${b.varOp==='<'?'selected':''}>&lt;</option>
+                </select>
+                <input type="number" class="input-text input-num" value="${b.varVal}" oninput="updateValue('${b.id}','varVal',this.value)">`; //[cite: 4]
+            }
+          }
+          else if (b.type === 'else') {
+            inner += `<span class="block-label" style="background:var(--color-control)">ELSE 条件不一致時</span>`; //[cite: 4]
+          }
+          else if (b.type === 'endif') {
+            inner += `<span class="block-label" style="background:var(--color-control)">END IF 分岐終了</span>`; //[cite: 4]
+          }
+          else if (b.type === 'while') {
+            inner += `<span class="block-label" style="background:var(--color-control)">WHILE ループ開始</span>`; //[cite: 4]
+          }
+          else if (b.type === 'endwhile') {
+            inner += `<span class="block-label" style="background:var(--color-control)">END WHILE ループ終了</span>`; //[cite: 4]
+          }
+          else if (b.type === 'led') {
+            // 大仙LEDUI：ON(1), OFF(0), そのまま(3) の三択に対応[cite: 1]
+            const optLed = (v) => `<option value="1" ${v==1?'selected':''}>点灯 (1)</option><option value="0" ${v==0?'selected':''}>消灯 (0)</option><option value="3" ${v==3?'selected':''}>そのまま (3)</option>`;
+            inner += `<span class="block-label" style="background:var(--color-led)">LED設定 (大仙方式)</span>
+              <span>RED1:</span><select class="select-custom" onchange="updateValue('${b.id}','r1',this.value)">${optLed(b.r1)}</select>
+              <span>RED2:</span><select class="select-custom" onchange="updateValue('${b.id}','r2',this.value)">${optLed(b.r2)}</select>
+              <span>RED3:</span><select class="select-custom" onchange="updateValue('${b.id}','r3',this.value)">${optLed(b.r3)}</select>
+              <span>GREEN:</span><select class="select-custom" onchange="updateValue('${b.id}','g',this.value)">${optLed(b.g)}</select>`;
+          }
+          else if (b.type === 'variable') {
+            inner += `<span class="block-label" style="background:var(--color-var); color:#000;">変数演算</span>
+              <span>変数</span><select class="select-custom" onchange="updateValue('${b.id}','target',this.value)">`; //[cite: 4]
+            ALL_VARS.forEach(v => inner += `<option value="${v}" ${b.target===v?'selected':''}>${v}</option>`);
+            inner += `</select>
+              <select class="select-custom" onchange="updateValue('${b.id}','op',this.value)">
+                <option value="=" ${b.op==='='?'selected':''}>= (代入)</option>
+                <option value="+=" ${b.op==='+='?'selected':''}>+= (加算)</option>
+                <option value="-=" ${b.op==='-='?'selected':''}>-= (減算)</option>
+              </select>
+              <span>式:</span><input type="text" class="input-text input-long" value="${b.expr}" placeholder="例: B + 10, cn1, compass" oninput="updateValue('${b.id}','expr',this.value)">`; //[cite: 4]
+          }
+          else if (b.type === 'delay') {
+            inner += `<span class="block-label" style="background:var(--color-wait); color:#000;">待機タイマー</span>
+              <input type="number" step="0.01" class="input-text input-num" value="${b.time}" oninput="updateValue('${b.id}','time',this.value)">
+              <span>秒 待つ</span>`; //[cite: 4]
+          }
+
+          inner += `</div>`; //[cite: 4]
+
+          inner += `<div class="block-ctrls">
+            <button class="btn-ctrl" onclick="moveUp(${index})" title="上へ">▲</button>
+            <button class="btn-ctrl" onclick="moveDown(${index})" title="下へ">▼</button>
+            <button class="btn-ctrl" style="color:#ef4444;" onclick="removeBlock(${index})" title="削除">✖</button>
+          </div>`; //[cite: 4]
+
+          blockDiv.innerHTML = inner; //[cite: 4]
+          ws.appendChild(blockDiv); //[cite: 4]
+
+          if (b.type === 'if' || b.type === 'while' || b.type === 'else' || b.type === 'elseif') { //[cite: 4]
+            if (b.type === 'if' || b.type === 'while') { //[cite: 4]
+              currentIndent++; //[cite: 4]
+            } else {
+              currentIndent = rowIndent + 1; //[cite: 4]
+            }
+          }
+        });
+
+        generateCCode(); //[cite: 4]
+      }
+
+      function getBlockCategory(type) {
+        if (type === 'motor') return 'motor'; //[cite: 4]
+        if (['if', 'elseif', 'else', 'endif', 'while', 'endwhile'].includes(type)) return 'control'; //[cite: 4]
+        if (type === 'led') return 'led'; //[cite: 4]
+        if (type === 'variable') return 'var'; //[cite: 4]
+        if (type === 'delay') return 'wait'; //[cite: 4]
+        return 'main'; //[cite: 4]
+      }
+
+      // 大仙のネイティブファームウェア表現に合わせたCコードプレビューの自動合成
+      function generateCCode() {
+        let code = `//--------------------------------------------------------------------------------\n`;
+        code += `// Generated by Style-X Interface (D18_User.c Framework)\n`;
+        code += `//--------------------------------------------------------------------------------\n\n`;
+        code += `void user_main(void)\n{\n`; //[cite: 3]
+
+        let indentLevel = 1;
+
+        programData.forEach(b => {
+          if (b.type === 'endif' || b.type === 'endwhile') indentLevel = Math.max(1, indentLevel - 1); //[cite: 4]
+          if (b.type === 'else' || b.type === 'elseif') indentLevel = Math.max(1, indentLevel - 1); //[cite: 4]
+
+          let spacing = "  ".repeat(indentLevel);
+
+          switch (b.type) {
+            case 'motor':
+              code += `${spacing}motor(${b.left}, ${b.right});\n`; //[cite: 4]
+              break;
+            case 'delay':
+              code += `${spacing}wait_ms(${Math.floor(b.time * 1000)});\n`; // wait_msに変更[cite: 2]
+              break;
+            case 'led':
+              code += `${spacing}out_LEDs(${b.r1}${b.r2}${b.r3}${b.g});\n`; // 大仙独自の4桁リテラルへ変換[cite: 1, 2]
+              break;
+            case 'while':
+              code += `${spacing}while (TRUE) {\n`;
+              indentLevel++;
+              break;
+            case 'endwhile':
+              code += `${spacing}}\n`; //[cite: 4]
+              break;
+            case 'else':
+              code += `${spacing}} else {\n`; //[cite: 4]
+              indentLevel++;
+              break;
+            case 'if':
+              code += `${spacing}if (${parseCondition(b)}) {\n`; //[cite: 4]
+              indentLevel++;
+              break;
+            case 'elseif':
+              code += `${spacing}} else if (${parseCondition(b)}) {\n`; //[cite: 4]
+              indentLevel++;
+              break;
+            case 'endif':
+              code += `${spacing}}\n`; //[cite: 4]
+              break;
+            case 'variable':
+              code += `${spacing}gV[VAR_${b.target}] ${b.op} ${b.expr};\n`; // 大仙ネイティブのgV配列へ[cite: 1, 2]
+              break;
+          }
+        });
+
+        code += `}`;
+        document.getElementById('codeText').textContent = code; //[cite: 4]
+        return code;
+      }
+
+      function parseCondition(b) {
+        if (b.condType === 'sensor') {
+          return `gAD[CN${b.sensorNum}] ${b.op} ${b.val}`; // gADマッピング[cite: 2]
+        } else if (b.condType === 'compass') {
+          return `abs(get_compass() - ${b.angle}) <= ${b.range}`; //[cite: 4]
+        } else if (b.condType === 'variable') {
+          return `gV[VAR_${b.varName}] ${b.varOp} ${b.varVal}`;
+        }
+        return "TRUE";
+      }
+
+      function downloadCFile() {
+        const code = generateCCode(); //[cite: 4]
+        const blob = new Blob([code], { type: 'text/plain' }); //[cite: 4]
+        const url = URL.createObjectURL(blob); //[cite: 4]
+        const a = document.createElement('a'); //[cite: 4]
+        a.href = url; //[cite: 4]
+        a.download = 'D18_User.c'; //[cite: 4]
+        a.click(); //[cite: 4]
+        URL.revokeObjectURL(url); //[cite: 4]
+        logTerminal("System: Source code framework exported as 'D18_User.c'."); //[cite: 4]
+      }
+
+      function logTerminal(msg, isRx = false) {
+        const log = document.getElementById('termLog'); //[cite: 4]
+        const prefix = isRx ? "RX < " : "SYS > "; //[cite: 4]
+        log.innerHTML += `<br><span style="color:${isRx ? '#38bdf8' : '#4ade80'}">${prefix}${msg}</span>`; //[cite: 4]
+        log.scrollTop = log.scrollHeight; //[cite: 4]
+      }
+
+      // === Web Serial API 制御 ======================================
+      async function toggleSerialConnection() {
+        if (serialPort) { //[cite: 4]
+          keepReading = false; //[cite: 4]
+          if (serialReader) { await serialReader.cancel(); } //[cite: 4]
+          if (serialWriter) { await serialWriter.close(); } //[cite: 4]
+          await serialPort.close(); //[cite: 4]
+          serialPort = null; serialWriter = null; serialReader = null; //[cite: 4]
+
+          document.getElementById('connBtn').textContent = "🔌 シリアル接続"; //[cite: 4]
+          document.getElementById('portStatus').textContent = "DISCONNECTED"; //[cite: 4]
+          document.getElementById('portStatus').style.color = "#ef4444"; //[cite: 4]
+          logTerminal("System: Port closed."); //[cite: 4]
+        } else {
+          if (!("serial" in navigator)) { //[cite: 4]
+            alert("Web Serial APIはこのブラウザでサポートされていません。ChromeかEdgeを使用してください。"); //[cite: 4]
+            return;
+          }
+          try {
+            serialPort = await navigator.serial.requestPort(); //[cite: 4]
+            await serialPort.open({ baudRate: 115200 }); //[cite: 4]
+            serialWriter = serialPort.writable.getWriter(); //[cite: 4]
+
+            document.getElementById('connBtn').textContent = "🔌 切断する"; //[cite: 4]
+            document.getElementById('portStatus').textContent = "CONNECTED (115200bps)"; //[cite: 4]
+            document.getElementById('portStatus').style.color = "#10b981"; //[cite: 4]
+            logTerminal("System: Connection established with TJ3B board."); //[cite: 4]
+
+            keepReading = true; //[cite: 4]
+            serialReadLoop(); //[cite: 4]
+          } catch (e) {
+            logTerminal("Error: " + e.message); //[cite: 4]
+            serialPort = null; //[cite: 4]
+          }
+        }
+      }
+
+      async function serialReadLoop() {
+        while (serialPort && keepReading) { //[cite: 4]
+          try {
+            const textDecoder = new TextDecoderStream(); //[cite: 4]
+            const readableStreamClosed = serialPort.readable.pipeTo(textDecoder.writable); //[cite: 4]
+            serialReader = textDecoder.readable.getReader(); //[cite: 4]
+
+            while (true) {
+              const { value, done } = await serialReader.read(); //[cite: 4]
+              if (done) { break; } //[cite: 4]
+              if (value) {
+                logTerminal(value.trim(), true); //[cite: 4]
+              }
+            }
+          } catch (e) {
+            break;
+          } finally {
+            if (serialReader) serialReader.releaseLock(); //[cite: 4]
+          }
+        }
+      }
+
+      // 各ブロック情報を12バイトのバイナリ(Uint8Array)にエンコードする統合処理[cite: 4]
+      function compileBlock(b) {
+        let arr = new Uint8Array(12); //[cite: 4]
+
+        if (b.type === 'motor') {
+          arr[0] = 1; //[cite: 4]
+          arr[1] = b.left < 0 ? 256 + b.left : b.left; //[cite: 4]
+          arr[2] = b.right < 0 ? 256 + b.right : b.right; //[cite: 4]
+        } 
+        else if (b.type === 'delay') {
+          arr[0] = 2; //[cite: 4]
+          let ms = Math.floor(b.time * 1000); //[cite: 4]
+          arr[1] = (ms >> 8) & 0xFF; //[cite: 4]
+          arr[2] = ms & 0xFF; //[cite: 4]
+        } 
+        else if (b.type === 'led') {
+          arr[0] = 3;
+          arr[1] = parseInt(b.r1);
+          arr[2] = parseInt(b.r2);
+          arr[3] = parseInt(b.r3);
+          arr[4] = parseInt(b.g);
+        } 
+        else if (b.type === 'if' || b.type === 'elseif') {
+          arr[0] = (b.type === 'if') ? 4 : 6; //[cite: 4]
+          let cType = 1; //[cite: 4]
+          
+          if (b.condType === 'sensor') {
+            cType = 1; //[cite: 4]
+            arr[2] = b.sensorNum; //[cite: 4]
+            let opMap = { '>': 1, '<': 2, '==': 3 }; //[cite: 4]
+            arr[3] = opMap[b.op] || 3; //[cite: 4]
+            arr[4] = (b.val >> 8) & 0xFF; //[cite: 4]
+            arr[5] = b.val & 0xFF; //[cite: 4]
+          } else if (b.condType === 'compass') {
+            cType = 2; //[cite: 4]
+            arr[2] = (b.angle >> 8) & 0xFF; //[cite: 4]
+            arr[3] = b.angle & 0xFF; //[cite: 4]
+            arr[4] = b.range; //[cite: 4]
+          } else if (b.condType === 'variable') {
+            cType = 3;
+            // 26変数対応：アルファベット順インデックス[cite: 1]
+            let varIdx = ALL_VARS.indexOf(b.varName) + 1;
+            arr[2] = varIdx;
+            let opMap = { '==': 1, '!=': 2, '>': 3, '<': 4 }; //[cite: 4]
+            arr[3] = opMap[b.varOp] || 1; //[cite: 4]
+            let vVal = parseInt(b.varVal) || 0; //[cite: 4]
+            let uVal = vVal < 0 ? 65536 + vVal : vVal; //[cite: 4]
+            arr[4] = (uVal >> 8) & 0xFF; //[cite: 4]
+            arr[5] = uVal & 0xFF; //[cite: 4]
+          }
+          arr[1] = cType; //[cite: 4]
+          arr[9] = b.jumpTarget !== undefined ? b.jumpTarget : 0; //[cite: 4]
+          arr[10] = b.endTarget !== undefined ? b.endTarget : 0; //[cite: 4]
+        } 
+        else if (b.type === 'else') {
+          arr[0] = 5; //[cite: 4]
+          arr[10] = b.endTarget !== undefined ? b.endTarget : 0; //[cite: 4]
+        } 
+        else if (b.type === 'endif') {
+          arr[0] = 7; //[cite: 4]
+        } 
+        else if (b.type === 'while') {
+          arr[0] = 8; //[cite: 4]
+        } 
+        else if (b.type === 'endwhile') {
+          arr[0] = 9; //[cite: 4]
+          arr[9] = b.jumpTarget !== undefined ? b.jumpTarget : 0; //[cite: 4]
+        } 
+        else if (b.type === 'variable') {
+          arr[0] = 10; //[cite: 4]
+          let varIdx = ALL_VARS.indexOf(b.target) + 1;
+          arr[1] = varIdx;
+          let opMap = { '=': 1, '+=': 2, '-=': 3 }; //[cite: 4]
+          arr[2] = opMap[b.op] || 1; //[cite: 4]
+          
+          let src1_type = 1; //[cite: 4]
+          let src1_val = 0; //[cite: 4]
+          let op2 = 0; //[cite: 4]
+          let src2_type = 1; //[cite: 4]
+          let src2_val = 0; //[cite: 4]
+
+          let cleanExpr = b.expr.replace(/\s+/g, ''); //[cite: 4]
+          let match = cleanExpr.match(/^([a-zA-Z0-9_]+)([\+\-])([a-zA-Z0-9_]+)$/); //[cite: 4]
+          if (match) {
+            let part1 = match[1]; //[cite: 4]
+            let opSign = match[2]; //[cite: 4]
+            let part2 = match[3]; //[cite: 4]
+            op2 = (opSign === '+') ? 1 : 2; //[cite: 4]
+            parsePart(part1, 1); //[cite: 4]
+            parsePart(part2, 2); //[cite: 4]
+          } else {
+            parsePart(cleanExpr, 1); //[cite: 4]
+          }
+
+          function parsePart(part, num) {
+            let type = 1; //[cite: 4]
+            let val = 0; //[cite: 4]
+            if (part.match(/^cn([1-9]|10)$/i)) { // CN10まで拡張に対応
+              type = 2; //[cite: 4]
+              val = parseInt(part.match(/^cn([1-9]|10)$/i)[1]); //[cite: 4]
+            } else if (part.match(/^compass$/i)) {
+              type = 4; // 新仕様：コンパス状態の代入に完全対応[cite: 1]
+              val = 0;
+            } else if (part.length === 1 && part.match(/^[A-Za-z]$/)) {
+              type = 3; //[cite: 4]
+              val = ALL_VARS.indexOf(part.toUpperCase()) + 1;
+            } else {
+              type = 1; //[cite: 4]
+              val = parseInt(part) || 0; //[cite: 4]
+            }
+            if (num === 1) {
+              src1_type = type; src1_val = val; //[cite: 4]
+            } else {
+              src2_type = type; src2_val = val; //[cite: 4]
+            }
+          }
+          
+          arr[3] = src1_type; //[cite: 4]
+          arr[4] = src1_val < 0 ? 256 + src1_val : src1_val; //[cite: 4]
+          arr[5] = op2; //[cite: 4]
+          arr[6] = src2_type; //[cite: 4]
+          arr[7] = src2_val < 0 ? 256 + src2_val : src2_val; //[cite: 4]
+        }
+        
+        return arr; //[cite: 4]
+      }
+
+      // ロボットへの固定長バイナリストリーム転送[cite: 4]
+      async function sendToRobot() {
+        if (!serialWriter) { //[cite: 4]
+          alert("先にロボットをシリアル接続してください。"); //[cite: 4]
+          return;
+        }
+
+        logTerminal("System: Compiling & Starting binary data stream transfer..."); //[cite: 4]
+
+        try {
+          // 【1パス目】制御構文ジャンプアドレス事前計算[cite: 4]
+          let stack = []; //[cite: 4]
+          for (let i = 0; i < programData.length; i++) { //[cite: 4]
+            let b = programData[i]; //[cite: 4]
+
+            if (b.type === 'if' || b.type === 'while') { //[cite: 4]
+              stack.push({ type: b.type, nodes: [i] }); //[cite: 4]
+            }
+            else if (b.type === 'elseif' || b.type === 'else') { //[cite: 4]
+              let top = stack[stack.length - 1]; //[cite: 4]
+              if (top && top.type === 'if') { //[cite: 4]
+                top.nodes.push(i); //[cite: 4]
+              }
+            }
+            else if (b.type === 'endif') { //[cite: 4]
+              let top = stack.pop(); //[cite: 4]
+              if (top && top.type === 'if') { //[cite: 4]
+                let nodes = top.nodes; //[cite: 4]
+                for (let j = 0; j < nodes.length; j++) { //[cite: 4]
+                  let currIdx = nodes[j]; //[cite: 4]
+                  let nextIdx = (j + 1 < nodes.length) ? nodes[j + 1] : i; //[cite: 4]
+
+                  if (programData[currIdx].type !== 'else') { //[cite: 4]
+                    programData[currIdx].jumpTarget = nextIdx; //[cite: 4]
                   }
-
-                  programData.push(block);
-                  updateWorkspace();
+                  programData[currIdx].endTarget = i; //[cite: 4]
+                }
               }
-
-              // データのパラメータ更新
-              function updateValue(id, key, value) {
-                  let target = programData.find(b => b.id === id);
-                  if (target) {
-                      if (key === 'left' || key === 'right') {
-                          let v = parseInt(value);
-                          if(isNaN(v)) v = 0; if(v > 100) v = 100; if(v < -100) v = -100;
-                          target[key] = v;
-                      } else if (key === 'time') {
-                          let v = parseFloat(value);
-                          if(isNaN(v) || v < 0) v = 0;
-                          target[key] = v;
-                      } else {
-                          target[key] = value;
-                      }
-                      generateCCode(); // パラメータ変更時はリアルタイムにコードを再生成
-                  }
+            }
+            else if (b.type === 'endwhile') { //[cite: 4]
+              let top = stack.pop(); //[cite: 4]
+              if (top && top.type === 'while') { //[cite: 4]
+                let whileIdx = top.nodes[0]; //[cite: 4]
+                programData[whileIdx].jumpTarget = i + 1; //[cite: 4]
+                programData[i].jumpTarget = whileIdx; //[cite: 4]
               }
+            }
+          }
 
-              // ブロック削除
-              function removeBlock(index) {
-                  programData.splice(index, 1);
-                  updateWorkspace();
-              }
+          // 【2パス目】一括送信フェーズ[cite: 4]
+          let startPacket = new Uint8Array(12); //[cite: 4]
+          startPacket[0] = 250; // 送信開始フラグ[cite: 3]
+          await serialWriter.write(startPacket); //[cite: 4]
+          await new Promise(r => setTimeout(r, 100)); //[cite: 4]
 
-              // 位置の変更（上移動）
-              function moveUp(index) {
-                  if (index > 0) {
-                      let temp = programData[index];
-                      programData[index] = programData[index - 1];
-                      programData[index - 1] = temp;
-                      updateWorkspace();
-                  }
-              }
+          for (let i = 0; i < programData.length; i++) { //[cite: 4]
+            const b = programData[i]; //[cite: 4]
+            let binaryBlock = compileBlock(b); //[cite: 4]
 
-              // 位置の変更（下移動）
-              function moveDown(index) {
-                  if (index < programData.length - 1) {
-                      let temp = programData[index];
-                      programData[index] = programData[index + 1];
-                      programData[index + 1] = temp;
-                      updateWorkspace();
-                  }
-              }
+            await serialWriter.write(binaryBlock); //[cite: 4]
+            logTerminal(`Transmitted binary line ${i}: [${binaryBlock.join(', ')}]`); //[cite: 4]
+            await new Promise(r => setTimeout(r, 60)); //[cite: 4]
+          }
 
-              function clearWorkspace() {
-                  if (confirm("ワークスペース内のすべてのブロックを削除しますか？")) {
-                      programData = [];
-                      updateWorkspace();
-                  }
-              }
+          let endPacket = new Uint8Array(12); //[cite: 4]
+          endPacket[0] = 255; // 送信完了フラグ[cite: 3]
+          await serialWriter.write(endPacket); //[cite: 4]
 
-              // ワークスペース全体のビジュアル更新レンダリング
-              function updateWorkspace() {
-                  const ws = document.getElementById('workspace');
-                  const emptyMsg = document.getElementById('emptyMsg');
+          logTerminal("System: All programming chunks deployed to the target device memory successfully."); //[cite: 4]
+          alert("ロボットへのダウンロードが完了しました！\n機体のスタートボタンを押すとプログラムを実行します。"); //[cite: 4]
 
-                  // 既存エレメントのクリア（固定メッセージを除く）
-                  const blocks = ws.querySelectorAll('.block');
-                  blocks.forEach(b => b.remove());
+        } catch (e) {
+          logTerminal("Transfer Failed: " + e.message); //[cite: 4]
+        }
+      }
 
-                  if (programData.length === 0) {
-                      emptyMsg.style.display = 'block';
-                      generateCCode();
-                      return;
-                  }
-                  emptyMsg.style.display = 'none';
+      // ==============================================================
+      // 🛠️ 【新規追加機能】プロジェクトセーブ / ロード / HEX保存ルーチン
+      // ==============================================================
 
-                  let currentIndent = 0;
+      // 1. 同階層のファームウェアバイナリ(StyleX_Firmware.hex)をローカルに抽出保存する関数
+      function downloadHexFile() {
+        const a = document.createElement('a');
+        a.href = 'StyleX_Firmware.hex';
+        a.download = 'StyleX_Firmware.hex';
+        a.click();
+        logTerminal("System: Requesting 'StyleX_Firmware.hex' download from root directory.");
+      }
 
-                  programData.forEach((b, index) => {
-                      // 閉じブロックが来た場合は、その行からインデントを下げる
-                      if (b.type === 'endif' || b.type === 'endwhile') {
-                          currentIndent = Math.max(0, currentIndent - 1);
-                      }
-                      // else系は構造上その行だけインデントを1つ下げる表現にする
-                      let rowIndent = currentIndent;
-                      if (b.type === 'else' || b.type === 'elseif') {
-                          rowIndent = Math.max(0, currentIndent - 1);
-                      }
+      // 2. 現在配置されているブロックデータをJSON文字列に変換し、オリジナル拡張子「.XSY」で保存する関数
+      function saveXSYFile() {
+        if (programData.length === 0) {
+          alert("ワークスペースが空のため、セーブファイルを生成できません。");
+          return;
+        }
+        // 可読性の高い綺麗にインデントされたJSONを生成
+        const jsonStr = JSON.stringify(programData, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'robot_program.xsy'; // カスタム拡張子でダウンロード
+        a.click();
+        URL.revokeObjectURL(url);
+        logTerminal("System: Current structural workspace successfully deployed to 'robot_program.xsy'.");
+      }
 
-                      const blockDiv = document.createElement('div');
-                      blockDiv.className = `block b-${getBlockCategory(b.type)}`;
-                      blockDiv.style.marginLeft = `${rowIndent * 24}px`;
+      // 3. 隠しファイルインプットをクリックさせてロードダイアログを展開するトリガー
+      function triggerLoadXSY() {
+        document.getElementById('xsyFileInput').click();
+      }
 
-                      let inner = `<div class="block-core">`;
+      // 4. アップロードされた「.XSY」ファイルを読み込んで、ワークスペースをフルリカバリするハンドラー
+      function loadXSYFile(input) {
+        const file = input.files[0];
+        if (!file) return;
 
-                      // 各ブロックタイプに応じたUI要素の構築
-                      if (b.type === 'motor') {
-                          inner += `<span class="block-label" style="background:var(--color-motor)">モーター制御</span>
-                                    <span>左:</span><input type="number" class="input-text input-num" value="${b.left}" oninput="updateValue('${b.id}','left',this.value)"><span>%</span>
-                                    <span>右:</span><input type="number" class="input-text input-num" value="${b.right}" oninput="updateValue('${b.id}','right',this.value)"><span>%</span>`;
-                      }
-                      else if (b.type === 'if' || b.type === 'elseif') {
-                          inner += `<span class="block-label" style="background:var(--color-control)">${b.type.toUpperCase()} 条件判定</span>
-                                    <select class="select-custom" onchange="updateValue('${b.id}','condType',this.value); updateWorkspace();">
-                                        <option value="sensor" ${b.condType==='sensor'?'selected':''}>センサーチェック</option>
-                                        <option value="compass" ${b.condType==='compass'?'selected':''}>コンパスチェック</option>
-                                        <option value="variable" ${b.condType==='variable'?'selected':''}>変数チェック</option>
-                                    </select>`;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            // パース処理
+            const loadedData = JSON.parse(e.target.result);
+            
+            // 最低限のバリデーションチェック(配列構造であること)
+            if (Array.isArray(loadedData)) {
+              programData = loadedData;
+              updateWorkspace(); // リレンダリング実行
+              logTerminal("System: Workspace successfully reconstructed from local .xsy file.");
+            } else {
+              alert("ファイル形式の検証に失敗しました。有効なStyle-Xプロジェクトではありません。");
+            }
+          } catch (err) {
+            alert("JSON構造の解析中に壊滅的なエラーが発生しました: " + err.message);
+          }
+          // 同じファイルをもう一度読み込めるようにインプットバッファをクリア
+          input.value = '';
+        };
+        reader.readAsText(file);
+      }
 
-                          if (b.condType === 'sensor') {
-                              inner += `<span>CN</span><select class="select-custom" onchange="updateValue('${b.id}','sensorNum',this.value)">`;
-                              for(let s=1;s<=9;s++) inner+=`<option value="${s}" ${b.sensorNum==s?'selected':''}>${s}</option>`;
-                              inner += `</select>
-                                        <select class="select-custom" onchange="updateValue('${b.id}','op',this.value)">
-                                            <option value=">" ${b.op==='>'?'selected':''}>&gt;</option>
-                                            <option value="<" ${b.op==='<'?'selected':''}>&lt;</option>
-                                            <option value="==" ${b.op==='=='?'selected':''}>==</option>
-                                        </select>
-                                        <input type="number" class="input-text input-num" value="${b.val}" oninput="updateValue('${b.id}','val',this.value)">`;
-                          } else if (b.condType === 'compass') {
-                              inner += `<span>目標角:</span><input type="number" class="input-text input-num" value="${b.angle}" oninput="updateValue('${b.id}','angle',this.value)"><span>度</span>
-                                        <span>許容誤差: ±</span><input type="number" class="input-text input-num" value="${b.range}" oninput="updateValue('${b.id}','range',this.value)"><span>度</span>`;
-                          } else if (b.condType === 'variable') {
-                              inner += `<span>変数</span><select class="select-custom" onchange="updateValue('${b.id}','varName',this.value)">`;
-                              ['A','B','C','X','Y','Z'].forEach(v => inner+=`<option value="${v}" ${b.varName===v?'selected':''}>${v}</option>`);
-                              inner += `</select>
-                                        <select class="select-custom" onchange="updateValue('${b.id}','varOp',this.value)">
-                                            <option value="==" ${b.varOp==='=='?'selected':''}>==</option>
-                                            <option value="!=" ${b.varOp==='!='?'selected':''}>!=</option>
-                                            <option value=">" ${b.varOp==='>'?'selected':''}>&gt;</option>
-                                            <option value="<" ${b.varOp==='<'?'selected':''}>&lt;</option>
-                                        </select>
-                                        <input type="number" class="input-text input-num" value="${b.varVal}" oninput="updateValue('${b.id}','varVal',this.value)">`;
-                          }
-                      }
-                      else if (b.type === 'else') {
-                          inner += `<span class="block-label" style="background:var(--color-control)">ELSE 条件不一致時</span>`;
-                      }
-                      else if (b.type === 'endif') {
-                          inner += `<span class="block-label" style="background:var(--color-control)">END IF 分岐終了</span>`;
-                      }
-                      else if (b.type === 'while') {
-                          inner += `<span class="block-label" style="background:var(--color-control)">WHILE 無条件ループ開始</span>`;
-                      }
-                      else if (b.type === 'endwhile') {
-                          inner += `<span class="block-label" style="background:var(--color-control)">END WHILE ループ終了</span>`;
-                      }
-                      else if (b.type === 'led') {
-                          inner += `<span class="block-label" style="background:var(--color-led)">LED設定</span>
-                                    <span>RED1:</span><select class="select-custom" onchange="updateValue('${b.id}','r1',this.value)"><option value="0" ${b.r1==0?'selected':''}>消灯</option><option value="1" ${b.r1==1?'selected':''}>点灯</option></select>
-                                    <span>RED2:</span><select class="select-custom" onchange="updateValue('${b.id}','r2',this.value)"><option value="0" ${b.r2==0?'selected':''}>消灯</option><option value="1" ${b.r2==1?'selected':''}>点灯</option></select>
-                                    <span>RED3:</span><select class="select-custom" onchange="updateValue('${b.id}','r3',this.value)"><option value="0" ${b.r3==0?'selected':''}>消灯</option><option value="1" ${b.r3==1?'selected':''}>点灯</option></select>
-                                    <span>GRE:</span><select class="select-custom" onchange="updateValue('${b.id}','g',this.value)"><option value="0" ${b.g==0?'selected':''}>消灯</option><option value="1" ${b.g==1?'selected':''}>点灯</option></select>`;
-                      }
-                      else if (b.type === 'variable') {
-                          inner += `<span class="block-label" style="background:var(--color-var)">変数演算</span>
-                                    <span>変数</span><select class="select-custom" onchange="updateValue('${b.id}','target',this.value)">`;
-                          ['A','B','C','X','Y','Z'].forEach(v => inner+=`<option value="${v}" ${b.target===v?'selected':''}>${v}</option>`);
-                          inner += `</select>
-                                    <select class="select-custom" onchange="updateValue('${b.id}','op',this.value)">
-                                        <option value="=" ${b.op==='='?'selected':''}>= (代入)</option>
-                                        <option value="+=" ${b.op==='+='?'selected':''}>+= (加算)</option>
-                                        <option value="-=" ${b.op==='-='?'selected':''}>-= (減算)</option>
-                                    </select>
-                                    <span>式:</span><input type="text" class="input-text input-long" value="${b.expr}" placeholder="例: cn1 + 10" oninput="updateValue('${b.id}','expr',this.value)">`;
-                      }
-                      else if (b.type === 'delay') {
-                          inner += `<span class="block-label" style="background:var(--color-wait)">待機タイマー</span>
-                                    <input type="number" step="0.01" class="input-text input-num" value="${b.time}" oninput="updateValue('${b.id}','time',this.value)">
-                                    <span>秒 待つ</span>`;
-                      }
-
-                      inner += `</div>`; // .block-core 終了
-
-                      // 制御系ボタンの構築
-                      inner += `<div class="block-ctrls">
-                                  <button class="btn-ctrl" onclick="moveUp(${index})" title="上へ">▲</button>
-                                  <button class="btn-ctrl" onclick="moveDown(${index})" title="下へ">▼</button>
-                                  <button class="btn-ctrl" style="color:#ef4444;" onclick="removeBlock(${index})" title="削除">✖</button>
-                                </div>`;
-
-                      blockDiv.innerHTML = inner;
-                      ws.appendChild(blockDiv);
-
-                      // 開きブロックが来た場合は、次の行からインデントを1つ上げる
-                      if (b.type === 'if' || b.type === 'while' || b.type === 'else' || b.type === 'elseif') {
-                          if (b.type === 'if' || b.type === 'while') {
-                              currentIndent++;
-                          } else {
-                              // elseやelseifの後は、下がっていたインデントを基準レベルに戻して次に備える
-                              currentIndent = rowIndent + 1;
-                          }
-                      }
-                  });
-
-                  generateCCode();
-              }
-
-              // カテゴリ名マッピング補助
-              function getBlockCategory(type) {
-                  if (type === 'motor') return 'motor';
-                  if (['if','elseif','else','endif','while','endwhile'].includes(type)) return 'control';
-                  if (type === 'led') return 'led';
-                  if (type === 'variable') return 'var';
-                  if (type === 'delay') return 'wait';
-                  return 'main';
-              }
-
-              // C言語ソースファイルの生成ロジック
-              function generateCCode() {
-                  let code = `/**\n * Style-X Robot Control Program\n * Automatically Generated Code\n */\n\n`;
-                  code += `#include <robot_core.h>\n\n`;
-
-                  // システム固有変数グローバル宣言
-                  code += `// Global Variables\n`;
-                  code += `int var_A = 0, var_B = 0, var_C = 0;\n`;
-                  code += `int var_X = 0, var_Y = 0, var_Z = 0;\n\n`;
-
-                  code += `void setup() {\n`;
-                  code += `    init_system();\n`;
-                  code += `    pinMode(START_BUTTON_PIN, INPUT_PULLUP);\n`;
-                  code += `}\n\n`;
-
-                  code += `void loop() {\n`;
-                  code += `    // Wait for Robot physical Start-Button pressed\n`;
-                  code += `    while(digitalRead(START_BUTTON_PIN) == HIGH);\n\n`;
-                  code += `    // Main Processing execution\n`;
-
-                  let indentLevel = 1;
-
-                  programData.forEach(b => {
-                      // インデントの確定
-                      if (b.type === 'endif' || b.type === 'endwhile') indentLevel = Math.max(1, indentLevel - 1);
-                      if (b.type === 'else' || b.type === 'elseif') indentLevel = Math.max(1, indentLevel - 1);
-
-                      let spacing = "    ".repeat(indentLevel);
-
-                      switch(b.type) {
-                          case 'motor':
-                              code += `${spacing}motor(${b.left}, ${b.right});\n`;
-                              break;
-                          case 'delay':
-                              code += `${spacing}delay_ms(${Math.floor(b.time * 1000)});\n`;
-                              break;
-                          case 'led':
-                              code += `${spacing}set_led(1, ${b.r1}); set_led(2, ${b.r2}); set_led(3, ${b.r3}); set_led(4, ${b.g});\n`;
-                              break;
-                          case 'while':
-                              code += `${spacing}while(1) {\n`;
-                              indentLevel++;
-                              break;
-                          case 'endwhile':
-                              code += `${spacing}}\n`;
-                              break;
-                          case 'else':
-                              code += `${spacing}} else {\n`;
-                              indentLevel++;
-                              break;
-                          case 'if':
-                              code += `${spacing}if (${parseCondition(b)}) {\n`;
-                              indentLevel++;
-                              break;
-                          case 'elseif':
-                              code += `${spacing}} else if (${parseCondition(b)}) {\n`;
-                              indentLevel++;
-                              break;
-                          case 'endif':
-                              code += `${spacing}}\n`;
-                              break;
-                          case 'variable':
-                              code += `${spacing}var_${b.target} ${b.op} ${b.expr};\n`;
-                              break;
-                      }
-                  });
-
-                  code += `\n    // Safe Stop state\n`;
-                  code += `    motor(0, 0);\n`;
-                  code += `    while(1);\n`;
-                  code += `}`;
-
-                  document.getElementById('codeText').textContent = code;
-                  return code;
-              }
-
-              // 条件分岐文字列パーサー
-              function parseCondition(b) {
-                  if (b.condType === 'sensor') {
-                      return `get_sensor(${b.sensorNum}) ${b.op} ${b.val}`;
-                  } else if (b.condType === 'compass') {
-                      return `abs(get_compass() - ${b.angle}) <= ${b.range}`;
-                  } else if (b.condType === 'variable') {
-                      return `var_${b.varName} ${b.varOp} ${b.varVal}`;
-                  }
-                  return "1";
-              }
-
-              // Cファイルの純粋なローカルダウンロード保存
-              function downloadCFile() {
-                  const code = generateCCode();
-                  const blob = new Blob([code], { type: 'text/plain' });
-                  const url = URL.createObjectURL(blob);
-                  const a = document.createElement('a');
-                  a.href = url;
-                  a.download = 'robot_program.c';
-                  a.click();
-                  URL.revokeObjectURL(url);
-                  logTerminal("System: Source code file saved as 'robot_program.c'.");
-              }
-
-              // ターミナルログへの出力補助
-              function logTerminal(msg, isRx = false) {
-                  const log = document.getElementById('termLog');
-                  const prefix = isRx ? "RX < " : "SYS > ";
-                  log.innerHTML += `<br><span style="color:${isRx?'#38bdf8':'#4ade80'}">${prefix}${msg}</span>`;
-                  log.scrollTop = log.scrollHeight;
-              }
-
-              // === Web Serial API 制御 ======================================
-              async function toggleSerialConnection() {
-                  if (serialPort) {
-                      // 切断処理
-                      keepReading = false;
-                      if (serialReader) { await serialReader.cancel(); }
-                      if (serialWriter) { await serialWriter.close(); }
-                      await serialPort.close();
-                      serialPort = null; serialWriter = null; serialReader = null;
-
-                      document.getElementById('connBtn').textContent = "🔌 シリアル接続";
-                      document.getElementById('portStatus').textContent = "DISCONNECTED";
-                      document.getElementById('portStatus').style.color = "#ef4444";
-                      logTerminal("System: Port disconnected successfully.");
-                  } else {
-                      // 接続処理
-                      if (!("serial" in navigator)) {
-                          alert("Web Serial APIはこのブラウザでサポートされていません。ChromeかEdgeを使用してください。");
-                          return;
-                      }
-                      try {
-                          serialPort = await navigator.serial.requestPort();
-                          await serialPort.open({ baudRate: 115200 });
-
-                          serialWriter = serialPort.writable.getWriter();
-
-                          document.getElementById('connBtn').textContent = "🔌 切断する";
-                          document.getElementById('portStatus').textContent = "CONNECTED (115200bps)";
-                          document.getElementById('portStatus').style.color = "#10b981";
-                          logTerminal("System: Connection established with robot board.");
-
-                          keepReading = true;
-                          serialReadLoop();
-                      } catch (e) {
-                          logTerminal("Error: " + e.message);
-                          serialPort = null;
-                      }
-                  }
-              }
-
-              // 受信監視バックグラウンドループ
-              async function serialReadLoop() {
-                  while (serialPort && keepReading) {
-                      try {
-                          const textDecoder = new TextDecoderStream();
-                          const readableStreamClosed = serialPort.readable.pipeTo(textDecoder.writable);
-                          serialReader = textDecoder.readable.getReader();
-
-                          while (true) {
-                              const { value, done } = await serialReader.read();
-                              if (done) { break; }
-                              if (value) {
-                                  logTerminal(value.trim(), true);
-                              }
-                          }
-                      } catch (e) {
-                          break;
-                      } finally {
-                          if(serialReader) serialReader.releaseLock();
-                      }
-                  }
-              }
-
-              // 各ブロック情報を12バイトのバイナリ(Uint8Array)にパッキングするコンパイラ関数
-              function compileBlock(b) {
-                  let arr = new Uint8Array(12);
-
-                  // [0]: CMD_ID
-                  // (1:Motor, 2:Delay, 3:LED, 4:IF, 5:ELSE, 6:ELSEIF, 7:ENDIF, 8:WHILE, 9:ENDWHILE, 10:Variable)
-                  if (b.type === 'motor') {
-                      arr[0] = 1;
-                      // マイナスの値は2の補数(+256)に変換して送信
-                      arr[1] = b.left < 0 ? 256 + b.left : b.left;
-                      arr[2] = b.right < 0 ? 256 + b.right : b.right;
-                  } 
-                  else if (b.type === 'delay') {
-                      arr[0] = 2;
-                      let ms = Math.floor(b.time * 1000);
-                      arr[1] = (ms >> 8) & 0xFF; // MSB
-                      arr[2] = ms & 0xFF;        // LSB
-                  } 
-                  else if (b.type === 'led') {
-                      arr[0] = 3;
-                      arr[1] = b.r1;
-                      arr[2] = b.r2;
-                      arr[3] = b.r3;
-                      arr[4] = b.g;
-                  } 
-                  else if (b.type === 'if' || b.type === 'elseif') {
-                      arr[0] = (b.type === 'if') ? 4 : 6;
-                      
-                      let cType = 1; // 1: sensor, 2: compass, 3: variable
-                      if (b.condType === 'sensor') {
-                          cType = 1;
-                          arr[2] = b.sensorNum;
-                          let opMap = { '>': 1, '<': 2, '==': 3 };
-                          arr[3] = opMap[b.op] || 3;
-                          arr[4] = (b.val >> 8) & 0xFF; // MSB
-                          arr[5] = b.val & 0xFF;        // LSB
-                      } else if (b.condType === 'compass') {
-                          cType = 2;
-                          arr[2] = (b.angle >> 8) & 0xFF; // MSB
-                          arr[3] = b.angle & 0xFF;        // LSB
-                          arr[4] = b.range;               // range(許容誤差)
-                      } else if (b.condType === 'variable') {
-                          cType = 3;
-                          let varIdx = ['A','B','C','X','Y','Z'].indexOf(b.varName) + 1;
-                          arr[2] = varIdx;
-                          let opMap = { '==': 1, '!=': 2, '>': 3, '<': 4 };
-                          arr[3] = opMap[b.varOp] || 1;
-                          let vVal = parseInt(b.varVal) || 0;
-                          let uVal = vVal < 0 ? 65536 + vVal : vVal; // 16bit符号
-                          arr[4] = (uVal >> 8) & 0xFF;
-                          arr[5] = uVal & 0xFF;
-                      }
-                      arr[1] = cType;
-                      arr[9] = b.jumpTarget !== undefined ? b.jumpTarget : 0;
-                      arr[10] = b.endTarget !== undefined ? b.endTarget : 0;
-                  } 
-                  else if (b.type === 'else') {
-                      arr[0] = 5;
-                      arr[10] = b.endTarget !== undefined ? b.endTarget : 0;
-                  } 
-                  else if (b.type === 'endif') {
-                      arr[0] = 7;
-                  } 
-                  else if (b.type === 'while') {
-                      arr[0] = 8;
-                  } 
-                  else if (b.type === 'endwhile') {
-                      arr[0] = 9;
-                      arr[9] = b.jumpTarget !== undefined ? b.jumpTarget : 0;
-                  } 
-                  else if (b.type === 'variable') {
-                      arr[0] = 10;
-                      let varIdx = ['A','B','C','X','Y','Z'].indexOf(b.target) + 1;
-                      arr[1] = varIdx;
-                      let opMap = { '=': 1, '+=': 2, '-=': 3 };
-                      arr[2] = opMap[b.op] || 1;
-                      
-                      let src1_type = 1;
-                      let src1_val = 0;
-                      let op2 = 0;
-                      let src2_type = 1;
-                      let src2_val = 0;
-
-                      let cleanExpr = b.expr.replace(/\s+/g, '');
-                      let match = cleanExpr.match(/^([a-zA-Z0-9_]+)([\+\-])([a-zA-Z0-9_]+)$/);
-                      if (match) {
-                          let part1 = match[1];
-                          let opSign = match[2];
-                          let part2 = match[3];
-                          op2 = (opSign === '+') ? 1 : 2;
-                          parsePart(part1, 1);
-                          parsePart(part2, 2);
-                      } else {
-                          parsePart(cleanExpr, 1);
-                      }
-
-                      function parsePart(part, num) {
-                          let type = 1;
-                          let val = 0;
-                          if (part.match(/^cn([1-9])$/i)) {
-                              type = 2; // Sensor
-                              val = parseInt(part.match(/^cn([1-9])$/i)[1]);
-                          } else if (part.match(/^[ABCXYZabcxyz]$/)) {
-                              type = 3; // Variable
-                              let char = part.toUpperCase();
-                              val = ['A','B','C','X','Y','Z'].indexOf(char) + 1;
-                          } else if (part.match(/^var_[ABCXYZabcxyz]$/i)) {
-                              type = 3;
-                              let char = part.substring(4).toUpperCase();
-                              val = ['A','B','C','X','Y','Z'].indexOf(char) + 1;
-                          } else {
-                              type = 1; // Constant
-                              val = parseInt(part) || 0;
-                          }
-                          if (num === 1) {
-                              src1_type = type;
-                              src1_val = val;
-                          } else {
-                              src2_type = type;
-                              src2_val = val;
-                          }
-                      }
-                      
-                      arr[3] = src1_type;
-                      arr[4] = src1_val < 0 ? 256 + src1_val : src1_val;
-                      arr[5] = op2;
-                      arr[6] = src2_type;
-                      arr[7] = src2_val < 0 ? 256 + src2_val : src2_val;
-                  }
-                  
-                  return arr;
-              }
-
-              // 【完全版】ロボットへデータを転送する関数（固定長バイナリ送信仕様）
-              async function sendToRobot() {
-                  if (!serialWriter) {
-                      alert("先にロボットをシリアル接続してください。");
-                      return;
-                  }
-
-                  logTerminal("System: Compiling & Starting binary data stream transfer...");
-
-                  try {
-                      // ==========================================
-                      // 🛠️ 【1パス目】ジャンプ先の事前計算（コンパイル処理）
-                      // ==========================================
-                      let stack = [];
-                      for (let i = 0; i < programData.length; i++) {
-                          let b = programData[i];
-
-                          if (b.type === 'if' || b.type === 'while') {
-                              stack.push({ type: b.type, nodes: [i] });
-                          }
-                          else if (b.type === 'elseif' || b.type === 'else') {
-                              let top = stack[stack.length - 1];
-                              if (top && top.type === 'if') {
-                                  top.nodes.push(i);
-                              }
-                          }
-                          else if (b.type === 'endif') {
-                              let top = stack.pop();
-                              if (top && top.type === 'if') {
-                                  let nodes = top.nodes;
-                                  for (let j = 0; j < nodes.length; j++) {
-                                      let currIdx = nodes[j];
-                                      let nextIdx = (j + 1 < nodes.length) ? nodes[j + 1] : i;
-
-                                      if (programData[currIdx].type !== 'else') {
-                                          programData[currIdx].jumpTarget = nextIdx;
-                                      }
-                                      programData[currIdx].endTarget = i;
-                                  }
-                              }
-                          }
-                          else if (b.type === 'endwhile') {
-                              let top = stack.pop();
-                              if (top && top.type === 'while') {
-                                  let whileIdx = top.nodes[0];
-                                  programData[whileIdx].jumpTarget = i + 1;
-                                  programData[i].jumpTarget = whileIdx;
-                              }
-                          }
-                      }
-
-                      // ==========================================
-                      // ⚡ 【2パス目】Uint8Array(12) 形式でロボットへ一括送信
-                      // ==========================================
-                      // 送信開始パケット (CMD_ID = 250 をトリガー)
-                      let startPacket = new Uint8Array(12);
-                      startPacket[0] = 250;
-                      await serialWriter.write(startPacket);
-                      await new Promise(r => setTimeout(r, 100));
-
-                      for (let i = 0; i < programData.length; i++) {
-                          const b = programData[i];
-                          let binaryBlock = compileBlock(b);
-
-                          await serialWriter.write(binaryBlock);
-                          logTerminal(`Transmitted binary line ${i}: [${binaryBlock.join(', ')}]`);
-                          await new Promise(r => setTimeout(r, 60));
-                      }
-
-                      // 送信終了パケット (CMD_ID = 255 をトリガー)
-                      let endPacket = new Uint8Array(12);
-                      endPacket[0] = 255;
-                      await serialWriter.write(endPacket);
-
-                      logTerminal("System: All programming chunks deployed to the target device memory successfully.");
-                      alert("ロボットへのダウンロードが完了しました！\n機体のスタートボタンを押すとプログラムを実行します。");
-
-                  } catch (e) {
-                      logTerminal("Transfer Failed: " + e.message);
-                  }
-              }
-
-              // 初期描画
-              updateWorkspace();
+      // 初期レンダリング[cite: 4]
+      updateWorkspace(); //[cite: 4]
     </script>
   </body>
 </html>
