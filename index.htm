@@ -426,7 +426,7 @@
         <div class="ws-empty" id="emptyMsg">
           <h3>Style-X ワークスペース</h3>
           <p style="margin-top:8px; font-size:0.9rem;">
-            左のパレットからブロックを追加してプログラムを構築してください。
+            左 of パレットからブロックを追加してプログラムを構築してください。
           </p>
         </div>
       </div>
@@ -453,6 +453,9 @@
       let serialWriter = null;
       let serialReader = null;
       let keepReading = false;
+
+      // ⚡ 新設：受信監視中のデータを別機能（ハンドシェイクなど）でも検知するためのコールバック
+      let onSerialReceived = null;
 
       // 大仙仕様：AからZまでの26変数を生成[cite: 1]
       const ALL_VARS = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
@@ -807,6 +810,11 @@
               if (done) { break; }
               if (value) {
                 logTerminal(value.trim(), true);
+                
+                // ⚡ 新設：登録されたイベントリスナーがあれば受信データを流す
+                if (onSerialReceived) {
+                  onSerialReceived(value);
+                }
               }
             }
           } catch (e) {
@@ -1019,24 +1027,56 @@
       }
 
       // ==============================================================
-      // ⚡⚡ 【修正＆機能統合】マイコンへのFW直接書込 & プロジェクト管理
+      // ⚡⚡ 【進化版】マイコンへのFW自動ハンドシェイク直接書込
       // ==============================================================
 
-      // 1. 💡 修正点：PC保存ではなく、同階層の 'StyleX_Firmware.hex' を取得してWeb Serial経由でマイコンに直接焼き付ける関数
+      // 1. オート・ネゴシエーション（ハンドシェイク）によるFW書き込みプロセス
       async function flashInterpreterHex() {
         if (!serialWriter) {
           alert("先にロボットをシリアル接続してください。");
           return;
         }
 
-        if (!confirm("マイコンへStyle-Xコアインタプリタファームウェア(.hex)の直接書き込みを開始しますか？\n※注意：書き込み中は絶対に通信ケーブルを抜かないでください。")) {
-          return;
+        alert("【書き込み手順】\n1. ロボットの電源を一度OFF（またはリセットボタン長押し）にしてください。\n2. このメッセージの「OK」ボタンを押します。\n3. すぐにロボットの電源をON（またはリセットボタンを離す）にしてください。\n\n※Webアプリがブートプロンプトを自動検知して書き込みを開始します。");
+
+        logTerminal("System: Waiting for bootloader handshake ('Update?(y/n)' prompt)...");
+
+        // 自動的にDTR/RTSをトグルしてリセットを試みる（回路設計が対応している場合用）
+        try {
+          await serialPort.setSignals({ dataTerminalReady: false, requestToSend: false });
+          await new Promise(r => setTimeout(r, 200));
+          await serialPort.setSignals({ dataTerminalReady: true, requestToSend: true });
+        } catch(e) {
+          // 非サポート環境でもスルー
         }
 
-        logTerminal("System: Fetching 'StyleX_Firmware.hex' from local environment...");
+        // コールバックをセットして、マイコン側からの "Update?(y/n)" プロンプトの到着を待つ
+        onSerialReceived = async function(text) {
+          if (text.includes("Update?") || text.includes("y/n") || text.includes("Loader")) {
+            onSerialReceived = null; // 重複発火を防止するために解除
+            logTerminal("System: Bootloader prompt detected! Sending handshake signal 'y'...");
+            
+            try {
+              const encoder = new TextEncoder();
+              // マイコンへ書き込み承認「y」を送信！
+              await serialWriter.write(encoder.encode("y\r\n"));
+              await new Promise(r => setTimeout(r, 500)); // ブートローダーが書き込み待機状態に入るのを少し待つ
+
+              // 本番のHEXストリーミング書き込み処理を開始
+              await startActualHexFlashing();
+            } catch(err) {
+              logTerminal("Handshake Failed: " + err.message);
+              onSerialReceived = null;
+            }
+          }
+        };
+      }
+
+      // 2. 実際のHEXデータをシリアルに流し込む物理的な書き込みコア
+      async function startActualHexFlashing() {
+        logTerminal("System: Handshake established. Fetching 'StyleX_Firmware.hex'...");
 
         try {
-          // 同階層のHEXファイルをHTTP GETで取得
           const response = await fetch('StyleX_Firmware.hex');
           if (!response.ok) {
             throw new Error("サーバー上にファームウェア 'StyleX_Firmware.hex' が見つかりません。手動ビルドが成功しているか確認してください。");
@@ -1044,24 +1084,23 @@
           const hexText = await response.text();
           const lines = hexText.split(/\r?\n/);
           
-          logTerminal(`System: Flashing mechanism unlocked. Total ${lines.length} hex chunks loaded.`);
+          logTerminal(`System: Unlocked flashing channel. Streaming ${lines.length} hex lines directly to MCU...`);
           
           const encoder = new TextEncoder();
           
-          // 大仙マイコンボードの書き込み処理に合わせて1行ずつシリアルポートへ送出
           for (let i = 0; i < lines.length; i++) {
             const line = lines[i].trim();
             if (line.length === 0) continue;
 
-            // Intel HEXフォーマットの各行文字列をバイナリデータ化してマイコンへ直接送信
+            // 各Intel HEXの行を直接マイコンのブート領域へ書き込み
             await serialWriter.write(encoder.encode(line + '\r\n'));
             
-            // 進捗状況を画面右下のシリアルモニターにリアルタイム刻印して可視化
+            // 進捗モニターを刻む
             if (i % 30 === 0 || i === lines.length - 1) {
               logTerminal(`Flashing Progress: ${Math.floor((i / lines.length) * 100)}% (${i}/${lines.length} lines processed)`);
             }
             
-            // マイコンの物理的なFlashメモリ書き込み時間を確保するためのセーフティディレイ(25ms)
+            // マイコンの物理メモリへのFlash書き込み反映時間を待つディレイ(25ms)
             await new Promise(r => setTimeout(r, 25));
           }
 
@@ -1071,10 +1110,12 @@
         } catch (e) {
           logTerminal("Flashing Failed: " + e.message);
           alert("書き込みプロセス中にエラーが発生しました: " + e.message);
+        } finally {
+          onSerialReceived = null; // 状態のクリーンアップ
         }
       }
 
-      // 2. 現在配置されているブロックデータをJSON文字列に変換し、オリジナル拡張子「.XSY」で保存する関数
+      // 3. 現在配置されているブロックデータをJSON文字列に変換し、オリジナル拡張子「.XSY」で保存する関数
       function saveXSYFile() {
         if (programData.length === 0) {
           alert("ワークスペースが空のため、セーブファイルを生成できません。");
@@ -1092,12 +1133,12 @@
         logTerminal("System: Current structural workspace successfully deployed to 'robot_program.xsy'.");
       }
 
-      // 3. 隠しファイルインプットをクリックさせてロードダイアログを展開するトリガー
+      // 4. 隠しファイルインプットをクリックさせてロードダイアログを展開するトリガー
       function triggerLoadXSY() {
         document.getElementById('xsyFileInput').click();
       }
 
-      // 4. アップロードされた「.XSY」ファイルを読み込んで、ワークスペースをフルリカバリするハンドラー
+      // 5. アップロードされた「.XSY」ファイルを読み込んで、ワークスペースをフルリカバリするハンドラー
       function loadXSYFile(input) {
         const file = input.files[0];
         if (!file) return;
@@ -1115,7 +1156,7 @@
               alert("ファイル形式の検証に失敗しました。有効なStyle-Xプロジェクトではありません。");
             }
           } catch (err) {
-            alert("JSON構造의 解析中に致命的なエラーが発生しました: " + err.message);
+            alert("JSON構造の解析中に致命的なエラーが発生しました: " + err.message);
           }
           input.value = '';
         };
