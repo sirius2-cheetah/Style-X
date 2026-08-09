@@ -137,6 +137,8 @@
     display: flex;
     flex: 1;
     overflow: hidden;
+    position: relative;
+    z-index: 1;
   }
 
   /* パレットエリア（左） */
@@ -150,6 +152,7 @@
     display: flex;
     flex-direction: column;
     gap: 18px;
+    z-index: 2;
   }
 
   .palette::-webkit-scrollbar, .workspace::-webkit-scrollbar, .code-area::-webkit-scrollbar, .terminal-log::-webkit-scrollbar {
@@ -213,11 +216,15 @@
     justify-content: space-between;
     gap: 4px;
     position: relative;
+    user-select: none;
   }
   .palette-btn:hover {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.2);
     transform: translateX(2px);
+  }
+  .palette-btn:active {
+    transform: translateX(0);
   }
   
   .badge-icon {
@@ -253,6 +260,7 @@
     flex-direction: column;
     gap: 8px;
     position: relative;
+    z-index: 1;
   }
   
   .ws-empty {
@@ -267,20 +275,21 @@
 
   /* ブロック基本デザイン */
   .block {
-    background: rgba(21, 27, 41, 0.85);
+    background: rgba(21, 27, 41, 0.9);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
     border-radius: 6px;
     padding: 10px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: margin-left 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s;
     width: 100%;
     max-width: 950px;
     position: relative;
+    z-index: 2;
   }
   .block::before {
     content: '';
@@ -320,6 +329,7 @@
     font-weight: bold;
     font-size: 0.8rem;
     transition: all 0.2s;
+    user-select: none;
   }
   .btn-cond-select:hover {
     background: rgba(0, 229, 255, 0.25);
@@ -347,8 +357,8 @@
 
   /* 入力フォーム */
   .input-text {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255,255,255,0.15);
     color: white;
     padding: 4px 8px;
     border-radius: 4px;
@@ -356,17 +366,18 @@
     text-align: center;
     outline: none;
     font-size: 0.82rem;
+    transition: border-color 0.2s;
   }
   .input-text:focus {
     border-color: var(--color-motor);
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
   }
   .input-num { width: 55px; }
   .input-long { width: 140px; text-align: left; font-family: monospace; }
   
   .select-custom {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255,255,255,0.15);
     color: white;
     padding: 4px 8px;
     border-radius: 4px;
@@ -383,8 +394,8 @@
   /* 操作ボタン */
   .block-ctrls { display: flex; gap: 4px; }
   .btn-ctrl {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
     color: var(--text-muted);
     cursor: pointer;
     width: 28px;
@@ -395,9 +406,10 @@
     font-size: 0.85rem;
     border-radius: 4px;
     transition: all 0.15s;
+    user-select: none;
   }
-  .btn-ctrl:hover { color: white; background: rgba(255, 255, 255, 0.15); }
-  .btn-ctrl-del:hover { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+  .btn-ctrl:hover { color: white; background: rgba(255, 255, 255, 0.2); }
+  .btn-ctrl-del:hover { background: rgba(239, 68, 68, 0.3); color: #ef4444; border-color: rgba(239, 68, 68, 0.5); }
 
   /* 右パネル */
   .right-panel {
@@ -407,6 +419,7 @@
     border-left: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
+    z-index: 2;
   }
   .panel-tab {
     padding: 10px 16px;
@@ -466,7 +479,7 @@
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    z-index: 1000;
     pointer-events: none;
   }
   .modal-overlay.active {
@@ -483,6 +496,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    z-index: 1001;
   }
   .modal-title {
     font-size: 0.9rem;
@@ -510,6 +524,7 @@
     font-weight: 600;
     font-size: 0.82rem;
     transition: all 0.2s;
+    user-select: none;
   }
   .modal-btn:hover {
     background: rgba(0, 229, 255, 0.15);
@@ -526,6 +541,7 @@
     cursor: pointer;
     font-weight: bold;
     font-size: 0.8rem;
+    user-select: none;
   }
   .modal-cancel:hover { background: rgba(255,255,255,0.1); color: #fff; }
 </style>
@@ -534,16 +550,16 @@
   <header>
     <div class="logo">Style-<span>X</span> DAISEN Native</div>
     <div class="nav-actions">
-      <button class="btn btn-secondary btn-load" onclick="triggerLoadXSY()">📁 開く (.xsy)</button>
-      <button class="btn btn-secondary btn-save" onclick="saveXSYFile()">💾 保存 (.xsy)</button>
-      <input type="file" id="xsyFileInput" accept=".xsy" style="display:none;" onchange="loadXSYFile(this)">
+      <button class="btn btn-secondary btn-load" id="btnTriggerLoad">📁 開く (.xsy)</button>
+      <button class="btn btn-secondary btn-save" id="btnSaveXSY">💾 保存 (.xsy)</button>
+      <input type="file" id="xsyFileInput" accept=".xsy" style="display:none;">
       <div class="nav-divider"></div>
-      <button class="btn btn-secondary" onclick="clearWorkspace()">🗑️ クリア</button>
-      <button class="btn btn-secondary" onclick="downloadCFile()">📄 D18_User.c 保存</button>
+      <button class="btn btn-secondary" id="btnClearWs">🗑️ クリア</button>
+      <button class="btn btn-secondary" id="btnDownloadC">📄 D18_User.c 保存</button>
       <div class="nav-divider"></div>
-      <button class="btn btn-secondary" onclick="toggleSerialConnection()" id="connBtn">🔌 接続</button>
-      <button class="btn btn-secondary btn-hex-gen" onclick="downloadCustomHex()">💾 HEX生成</button>
-      <button class="btn btn-active" onclick="flashCustomHexToRobot()">⚡ HEX直接書込</button>
+      <button class="btn btn-secondary" id="connBtn">🔌 接続</button>
+      <button class="btn btn-secondary btn-hex-gen" id="btnDownloadHex">💾 HEX生成</button>
+      <button class="btn btn-active" id="btnFlashHex">⚡ HEX直接書込</button>
     </div>
   </header>
 
@@ -553,47 +569,47 @@
       <div class="category">
         <div class="category-title p-motor-title">駆動・出力系</div>
         <div class="palette-grid">
-          <button class="palette-btn" onclick="addBlock('motor')"><span><span class="badge-icon" style="color:var(--color-motor)">m</span> モーター</span></button>
-          <button class="palette-btn" onclick="addBlock('mcb6')"><span><span class="badge-icon" style="color:var(--color-motor)">6ch</span> 6ch MCB</span><span class="badge-ext">拡張</span></button>
-          <button class="palette-btn" onclick="addBlock('led')"><span><span class="badge-icon" style="color:var(--color-led)">LED</span> LED制御</span></button>
-          <button class="palette-btn" onclick="addBlock('lcd')"><span><span class="badge-icon" style="color:var(--color-led)">LCD</span> LCD表示</span><span class="badge-ext">拡張</span></button>
-          <button class="palette-btn" onclick="addBlock('out')" style="grid-column: span 2;"><span><span class="badge-icon" style="color:var(--color-led)">OUT</span> Digital OUT (AIO)</span></button>
+          <button class="palette-btn" data-add-type="motor"><span><span class="badge-icon" style="color:var(--color-motor)">m</span> モーター</span></button>
+          <button class="palette-btn" data-add-type="mcb6"><span><span class="badge-icon" style="color:var(--color-motor)">6ch</span> 6ch MCB</span><span class="badge-ext">拡張</span></button>
+          <button class="palette-btn" data-add-type="led"><span><span class="badge-icon" style="color:var(--color-led)">LED</span> LED制御</span></button>
+          <button class="palette-btn" data-add-type="lcd"><span><span class="badge-icon" style="color:var(--color-led)">LCD</span> LCD表示</span><span class="badge-ext">拡張</span></button>
+          <button class="palette-btn" data-add-type="out" style="grid-column: span 2;"><span><span class="badge-icon" style="color:var(--color-led)">OUT</span> Digital OUT (AIO)</span></button>
         </div>
       </div>
 
       <div class="category">
         <div class="category-title p-sensor-title">センサー・通信</div>
         <div class="palette-grid">
-          <button class="palette-btn" onclick="addBlock('uss4')"><span><span class="badge-icon" style="color:var(--color-sensor)">USS</span> 4ch USS</span><span class="badge-ext">拡張</span></button>
-          <button class="palette-btn" onclick="addBlock('tjcom')"><span><span class="badge-icon" style="color:var(--color-sensor)">TJ</span> Sub I/O</span><span class="badge-ext">拡張</span></button>
-          <button class="palette-btn" onclick="addBlock('uart')" style="grid-column: span 2;"><span><span class="badge-icon" style="color:var(--color-sensor)">UART</span> USB UART</span></button>
+          <button class="palette-btn" data-add-type="uss4"><span><span class="badge-icon" style="color:var(--color-sensor)">USS</span> 4ch USS</span><span class="badge-ext">拡張</span></button>
+          <button class="palette-btn" data-add-type="tjcom"><span><span class="badge-icon" style="color:var(--color-sensor)">TJ</span> Sub I/O</span><span class="badge-ext">拡張</span></button>
+          <button class="palette-btn" data-add-type="uart" style="grid-column: span 2;"><span><span class="badge-icon" style="color:var(--color-sensor)">UART</span> USB UART</span></button>
         </div>
       </div>
 
       <div class="category">
         <div class="category-title p-var-title">時間・変数</div>
         <div class="palette-grid">
-          <button class="palette-btn" onclick="addBlock('delay')"><span><span class="badge-icon" style="color:var(--color-wait)">⏳</span> Wait待機</span></button>
-          <button class="palette-btn" onclick="addBlock('timer')"><span><span class="badge-icon" style="color:var(--color-wait)">⏱️</span> タイマーリセット</span></button>
-          <button class="palette-btn" onclick="addBlock('variable')" style="grid-column: span 2;"><span><span class="badge-icon" style="color:var(--color-var)">ABC</span> 変数演算・代入</span></button>
+          <button class="palette-btn" data-add-type="delay"><span><span class="badge-icon" style="color:var(--color-wait)">⏳</span> Wait待機</span></button>
+          <button class="palette-btn" data-add-type="timer"><span><span class="badge-icon" style="color:var(--color-wait)">⏱️</span> タイマーリセット</span></button>
+          <button class="palette-btn" data-add-type="variable" style="grid-column: span 2;"><span><span class="badge-icon" style="color:var(--color-var)">ABC</span> 変数演算・代入</span></button>
         </div>
       </div>
 
       <div class="category">
         <div class="category-title p-control-title">制御構造 (フロー)</div>
         <div class="palette-grid">
-          <button class="palette-btn" onclick="addBlock('if')"><span class="badge-icon" style="color:var(--color-control)">if</span> if 分岐</button>
-          <button class="palette-btn" onclick="addBlock('while')"><span class="badge-icon" style="color:var(--color-control)">W</span> while</button>
-          <button class="palette-btn" onclick="addBlock('for')"><span class="badge-icon" style="color:var(--color-control)">for</span> forループ</button>
-          <button class="palette-btn" onclick="addBlock('break')"><span class="badge-icon" style="color:var(--color-control)">brk</span> break</button>
-          <button class="palette-btn" onclick="addBlock('continue')"><span class="badge-icon" style="color:var(--color-control)">cnt</span> continue</button>
-          <button class="palette-btn" onclick="addBlock('subprog')"><span class="badge-icon" style="color:var(--color-code)">sub</span> サブルーチン</button>
+          <button class="palette-btn" data-add-type="if"><span class="badge-icon" style="color:var(--color-control)">if</span> if 分岐</button>
+          <button class="palette-btn" data-add-type="while"><span class="badge-icon" style="color:var(--color-control)">W</span> while</button>
+          <button class="palette-btn" data-add-type="for"><span class="badge-icon" style="color:var(--color-control)">for</span> forループ</button>
+          <button class="palette-btn" data-add-type="break"><span class="badge-icon" style="color:var(--color-control)">brk</span> break</button>
+          <button class="palette-btn" data-add-type="continue"><span class="badge-icon" style="color:var(--color-control)">cnt</span> continue</button>
+          <button class="palette-btn" data-add-type="subprog"><span class="badge-icon" style="color:var(--color-code)">sub</span> サブルーチン</button>
         </div>
       </div>
 
       <div class="category">
         <div class="category-title p-code-title">拡張・直書き</div>
-        <button class="palette-btn" onclick="addBlock('ccode')"><span><span class="badge-icon" style="color:var(--color-code)">C</span> C code 直書き</span></button>
+        <button class="palette-btn" data-add-type="ccode"><span><span class="badge-icon" style="color:var(--color-code)">C</span> C code 直書き</span></button>
       </div>
     </div>
 
@@ -616,7 +632,7 @@
           <span id="portStatus" style="color:#ef4444;">DISCONNECTED</span>
         </div>
         <div class="terminal-log" id="termLog">
-          <span class="log-sys">[SYS] Style-X Engine Initialized. Protected Runtime Mode.</span>
+          <span class="log-sys">[SYS] Style-X Engine Initialized. DOM Event Binds Active.</span>
         </div>
       </div>
     </div>
@@ -627,11 +643,12 @@
     <div class="modal-box">
       <div class="modal-title">条件選択</div>
       <div class="modal-grid" id="modalGrid"></div>
-      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-cancel" id="btnModalCancel">Cancel</button>
     </div>
   </div>
 
   <script>
+    // グローバル状態
     let programData = [];
     let serialPort = null;
     let serialWriter = null;
@@ -656,72 +673,102 @@
       { id: 'ccode', name: 'C code 条件を記述', icon: '💻' }
     ];
 
+    // 初期化および各種イベントリスナー安全追加
+    document.addEventListener('DOMContentLoaded', () => {
+      // パレット追加ボタンへの一括イベント割り当て
+      document.querySelectorAll('.palette-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const type = e.currentTarget.getAttribute('data-add-type');
+          if (type) addBlock(type);
+        });
+      });
+
+      // ナビゲーションバーボタン
+      document.getElementById('btnTriggerLoad').addEventListener('click', triggerLoadXSY);
+      document.getElementById('btnSaveXSY').addEventListener('click', saveXSYFile);
+      document.getElementById('xsyFileInput').addEventListener('change', (e) => loadXSYFile(e.target));
+      document.getElementById('btnClearWs').addEventListener('click', clearWorkspace);
+      document.getElementById('btnDownloadC').addEventListener('click', downloadCFile);
+      document.getElementById('connBtn').addEventListener('click', toggleSerialConnection);
+      document.getElementById('btnDownloadHex').addEventListener('click', downloadCustomHex);
+      document.getElementById('btnFlashHex').addEventListener('click', flashCustomHexToRobot);
+
+      // モーダルキャンセルおよび背景クリック判定
+      document.getElementById('btnModalCancel').addEventListener('click', closeModal);
+      const modalOverlay = document.getElementById('condModal');
+      modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeModal();
+      });
+
+      // ESCキーでモーダルを閉じる
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+
+      updateWorkspace();
+    });
+
+    // ブロック追加ロジック
     function addBlock(type) {
-      try {
-        const now = Date.now();
+      const now = Date.now() + "_" + Math.floor(Math.random() * 1000);
 
-        if (type === 'if') {
-          const groupId = 'grp_if_' + now;
-          const bIf = { id: 'block_' + now + '_1', type: 'if', groupId: groupId, condType: 'sensor', sensorNum: 1, op: '>', val: 500, angle: 50, range: 90, varName: 'A', varOp: '==', varVal: 0, timerId: 1, timerVal: 1.0, rawCode: 'TRUE' };
-          const bElse = { id: 'block_' + now + '_2', type: 'else', groupId: groupId };
-          const bEndIf = { id: 'block_' + now + '_3', type: 'endif', groupId: groupId };
+      if (type === 'if') {
+        const groupId = 'grp_if_' + now;
+        const bIf = { id: 'block_' + now + '_1', type: 'if', groupId: groupId, condType: 'sensor', sensorNum: 1, op: '>', val: 500, angle: 50, range: 90, varName: 'A', varOp: '==', varVal: 0, timerId: 1, timerVal: 1.0, rawCode: 'TRUE' };
+        const bElse = { id: 'block_' + now + '_2', type: 'else', groupId: groupId };
+        const bEndIf = { id: 'block_' + now + '_3', type: 'endif', groupId: groupId };
 
-          programData.push(bIf, bElse, bEndIf);
-          updateWorkspace();
-          openModal(bIf.id, 'if');
-          return;
-        }
-
-        if (type === 'while') {
-          const groupId = 'grp_wh_' + now;
-          const bWhile = { id: 'block_' + now + '_1', type: 'while', groupId: groupId, condType: 'infinite', sensorNum: 1, op: '>', val: 500, timerId: 1, timerVal: 1.0, varName: 'A', varOp: '==', varVal: 0, rawCode: 'TRUE' };
-          const bEndWhile = { id: 'block_' + now + '_2', type: 'endwhile', groupId: groupId };
-
-          programData.push(bWhile, bEndWhile);
-          updateWorkspace();
-          openModal(bWhile.id, 'while');
-          return;
-        }
-
-        let block = { id: 'block_' + now, type: type };
-        if (type === 'motor') { block.left = 50; block.right = -50; }
-        else if (type === 'mcb6') { block.m1 = 10; block.m2 = -10; block.m3 = 20; block.m4 = -20; block.m5 = 'BRK'; block.m6 = 'NONE'; }
-        else if (type === 'led') { block.r1 = 1; block.r2 = 0; block.r3 = 1; block.g = 2; }
-        else if (type === 'lcd') { block.line = 1; block.text = "a"; }
-        else if (type === 'out') { block.port = 9; block.val = 'HIGH'; }
-        else if (type === 'uss4') { block.cmd = 'START'; }
-        else if (type === 'tjcom') { block.subPort = 1; }
-        else if (type === 'uart') { block.data = ""; }
-        else if (type === 'delay') { block.time = 2.00; }
-        else if (type === 'timer') { block.timerId = 4; }
-        else if (type === 'variable') { block.target = 'A'; block.op = '='; block.expr = '0'; }
-        else if (type === 'for') { block.count = 11; }
-        else if (type === 'subprog') { block.name = 'user_sub_1'; }
-        else if (type === 'ccode') { block.code = '// 自作コード'; }
-
-        programData.push(block);
+        programData.push(bIf, bElse, bEndIf);
         updateWorkspace();
-      } catch (err) {
-        logTerminal("[ERR] AddBlock Exception: " + err.message, "err");
+        openModal(bIf.id, 'if');
+        return;
       }
+
+      if (type === 'while') {
+        const groupId = 'grp_wh_' + now;
+        const bWhile = { id: 'block_' + now + '_1', type: 'while', groupId: groupId, condType: 'infinite', sensorNum: 1, op: '>', val: 500, timerId: 1, timerVal: 1.0, varName: 'A', varOp: '==', varVal: 0, rawCode: 'TRUE' };
+        const bEndWhile = { id: 'block_' + now + '_2', type: 'endwhile', groupId: groupId };
+
+        programData.push(bWhile, bEndWhile);
+        updateWorkspace();
+        openModal(bWhile.id, 'while');
+        return;
+      }
+
+      let block = { id: 'block_' + now, type: type };
+      if (type === 'motor') { block.left = 50; block.right = -50; }
+      else if (type === 'mcb6') { block.m1 = 10; block.m2 = -10; block.m3 = 20; block.m4 = -20; block.m5 = 'BRK'; block.m6 = 'NONE'; }
+      else if (type === 'led') { block.r1 = 1; block.r2 = 0; block.r3 = 1; block.g = 2; }
+      else if (type === 'lcd') { block.line = 1; block.text = "a"; }
+      else if (type === 'out') { block.port = 9; block.val = 'HIGH'; }
+      else if (type === 'uss4') { block.cmd = 'START'; }
+      else if (type === 'tjcom') { block.subPort = 1; }
+      else if (type === 'uart') { block.data = ""; }
+      else if (type === 'delay') { block.time = 2.00; }
+      else if (type === 'timer') { block.timerId = 4; }
+      else if (type === 'variable') { block.target = 'A'; block.op = '='; block.expr = '0'; }
+      else if (type === 'for') { block.count = 11; }
+      else if (type === 'subprog') { block.name = 'user_sub_1'; }
+      else if (type === 'ccode') { block.code = '// 自作コード'; }
+
+      programData.push(block);
+      updateWorkspace();
     }
 
+    // 連動削除ロジック
     function removeBlock(index) {
-      try {
-        const target = programData[index];
-        if (!target) return;
+      const target = programData[index];
+      if (!target) return;
 
-        if (target.groupId && ['if', 'endif', 'while', 'endwhile'].includes(target.type)) {
-          programData = programData.filter(b => b.groupId !== target.groupId);
-        } else {
-          programData.splice(index, 1);
-        }
-        updateWorkspace();
-      } catch (err) {
-        logTerminal("[ERR] RemoveBlock Exception: " + err.message, "err");
+      if (target.groupId && ['if', 'endif', 'while', 'endwhile'].includes(target.type)) {
+        programData = programData.filter(b => b.groupId !== target.groupId);
+      } else {
+        programData.splice(index, 1);
       }
+      updateWorkspace();
     }
 
+    // モーダルダイアログ安全制御
     function openModal(blockId, blockType) {
       currentTargetBlockId = blockId;
       const grid = document.getElementById('modalGrid');
@@ -735,16 +782,19 @@
       options.forEach(opt => {
         const btn = document.createElement('button');
         btn.className = 'modal-btn';
+        btn.type = 'button';
         btn.innerHTML = `<span>${opt.icon}</span> <span>${opt.name}</span>`;
-        btn.onclick = () => selectCondition(opt.id);
+        btn.addEventListener('click', () => selectCondition(opt.id));
         grid.appendChild(btn);
       });
 
-      document.getElementById('condModal').classList.add('active');
+      const modalOverlay = document.getElementById('condModal');
+      modalOverlay.classList.add('active');
     }
 
     function closeModal() {
-      document.getElementById('condModal').classList.remove('active');
+      const modalOverlay = document.getElementById('condModal');
+      modalOverlay.classList.remove('active');
       currentTargetBlockId = null;
     }
 
@@ -760,22 +810,18 @@
     }
 
     function updateValue(id, key, value) {
-      try {
-        let target = programData.find(b => b.id === id);
-        if (target) {
-          if (['left', 'right', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'port', 'count', 'subPort', 'sensorNum', 'val', 'angle', 'range', 'varVal'].includes(key)) {
-            let v = parseInt(value);
-            target[key] = isNaN(v) ? value : v;
-          } else if (['time', 'timerVal'].includes(key)) {
-            let v = parseFloat(value);
-            target[key] = isNaN(v) ? 0 : v;
-          } else {
-            target[key] = value;
-          }
-          generateCCode();
+      let target = programData.find(b => b.id === id);
+      if (target) {
+        if (['left', 'right', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'port', 'count', 'subPort'].includes(key)) {
+          let v = parseInt(value);
+          target[key] = isNaN(v) ? value : v;
+        } else if (['time', 'timerVal'].includes(key)) {
+          let v = parseFloat(value);
+          target[key] = isNaN(v) ? 0 : v;
+        } else {
+          target[key] = value;
         }
-      } catch (err) {
-        logTerminal("[ERR] UpdateValue Exception: " + err.message, "err");
+        generateCCode();
       }
     }
 
@@ -804,184 +850,256 @@
       }
     }
 
+    // ワークスペースUI動的構築 (完全安全DOMバインド)
     function updateWorkspace() {
-      try {
-        const ws = document.getElementById('workspace');
-        const emptyMsg = document.getElementById('emptyMsg');
+      const ws = document.getElementById('workspace');
+      const emptyMsg = document.getElementById('emptyMsg');
 
-        const blocks = ws.querySelectorAll('.block');
-        blocks.forEach(b => b.remove());
+      // 既存ブロック消去
+      const blocks = ws.querySelectorAll('.block');
+      blocks.forEach(b => b.remove());
 
-        if (programData.length === 0) {
-          emptyMsg.style.display = 'block';
-          generateCCode();
-          return;
-        }
-        emptyMsg.style.display = 'none';
-
-        let currentIndent = 0;
-
-        programData.forEach((b, index) => {
-          if (['endif', 'endwhile', 'endfor'].includes(b.type)) {
-            currentIndent = Math.max(0, currentIndent - 1);
-          }
-          let rowIndent = currentIndent;
-          if (['else'].includes(b.type)) {
-            rowIndent = Math.max(0, currentIndent - 1);
-          }
-
-          const blockDiv = document.createElement('div');
-          blockDiv.className = `block b-${getBlockCategory(b.type)}`;
-          blockDiv.style.marginLeft = `${rowIndent * 24}px`;
-
-          let inner = `<div class="block-core">`;
-
-          if (b.type === 'motor') {
-            inner += `<span class="block-label">Motor</span>
-                      <span>左:</span><input type="number" class="input-text input-num" value="${b.left ?? 0}" oninput="updateValue('${b.id}','left',this.value)">%
-                      <span>右:</span><input type="number" class="input-text input-num" value="${b.right ?? 0}" oninput="updateValue('${b.id}','right',this.value)">%`;
-          }
-          else if (b.type === 'mcb6') {
-            inner += `<span class="block-label">6ch MCB</span>
-                      <span>M1:</span><input type="number" class="input-text input-num" value="${b.m1 ?? 0}" oninput="updateValue('${b.id}','m1',this.value)">
-                      <span>M2:</span><input type="number" class="input-text input-num" value="${b.m2 ?? 0}" oninput="updateValue('${b.id}','m2',this.value)">
-                      <span>M3:</span><input type="number" class="input-text input-num" value="${b.m3 ?? 0}" oninput="updateValue('${b.id}','m3',this.value)">
-                      <span>M4:</span><input type="number" class="input-text input-num" value="${b.m4 ?? 0}" oninput="updateValue('${b.id}','m4',this.value)">
-                      <span>M5:</span><select class="select-custom" onchange="updateValue('${b.id}','m5',this.value)">
-                        <option value="BRK" ${b.m5==='BRK'?'selected':''}>BRK</option><option value="NONE" ${b.m5==='NONE'?'selected':''}>---</option>
-                      </select>
-                      <span>M6:</span><select class="select-custom" onchange="updateValue('${b.id}','m6',this.value)">
-                        <option value="NONE" ${b.m6==='NONE'?'selected':''}>---</option><option value="BRK" ${b.m6==='BRK'?'selected':''}>BRK</option>
-                      </select>`;
-          }
-          else if (b.type === 'led') {
-            const opt = (v) => `<option value="1" ${v==1?'selected':''}>ON(1)</option><option value="0" ${v==0?'selected':''}>OFF(0)</option><option value="2" ${v==2?'selected':''}>---(2)</option>`;
-            inner += `<span class="block-label">LED</span>
-                      <span>GRN:</span><select class="select-custom" onchange="updateValue('${b.id}','r1',this.value)">${opt(b.r1)}</select>
-                      <span>RED1:</span><select class="select-custom" onchange="updateValue('${b.id}','r2',this.value)">${opt(b.r2)}</select>
-                      <span>RED2:</span><select class="select-custom" onchange="updateValue('${b.id}','r3',this.value)">${opt(b.r3)}</select>
-                      <span>RED3:</span><select class="select-custom" onchange="updateValue('${b.id}','g',this.value)">${opt(b.g)}</select>`;
-          }
-          else if (b.type === 'lcd') {
-            inner += `<span class="block-label">LCD</span>
-                      <span>行:</span><input type="number" class="input-text input-num" value="${b.line ?? 1}" oninput="updateValue('${b.id}','line',this.value)">
-                      <span>表示:</span><input type="text" class="input-text input-long" value="${String(b.text ?? '')}" oninput="updateValue('${b.id}','text',this.value)">`;
-          }
-          else if (b.type === 'out') {
-            inner += `<span class="block-label">OUT</span>
-                      <span>CN:</span><input type="number" class="input-text input-num" value="${b.port ?? 1}" oninput="updateValue('${b.id}','port',this.value)">
-                      <span>状態:</span><select class="select-custom" onchange="updateValue('${b.id}','val',this.value)">
-                        <option value="HIGH" ${b.val==='HIGH'?'selected':''}>HIGH</option><option value="LOW" ${b.val==='LOW'?'selected':''}>LOW</option>
-                      </select>`;
-          }
-          else if (b.type === 'uss4') {
-            inner += `<span class="block-label">4ch USS</span>
-                      <span>動作:</span><select class="select-custom" onchange="updateValue('${b.id}','cmd',this.value)">
-                        <option value="START">muss: on (Start)</option>
-                      </select>`;
-          }
-          else if (b.type === 'tjcom') {
-            inner += `<span class="block-label">Sub I/O</span>
-                      <span>I/O Port:</span><input type="number" class="input-text input-num" value="${b.subPort ?? 1}" oninput="updateValue('${b.id}','subPort',this.value)">
-                      <span>動作:</span><span style="color:#00e5ff;">Start</span>`;
-          }
-          else if (b.type === 'uart') {
-            inner += `<span class="block-label">UART</span>
-                      <span>[Tx: USB]:</span><input type="text" class="input-text input-long" value="${String(b.data ?? '')}" oninput="updateValue('${b.id}','data',this.value)">`;
-          }
-          else if (b.type === 'delay') {
-            inner += `<span class="block-label">Wait</span>
-                      <input type="number" step="0.1" class="input-text input-num" value="${b.time ?? 1.0}" oninput="updateValue('${b.id}','time',this.value)"> 秒`;
-          }
-          else if (b.type === 'timer') {
-            inner += `<span class="block-label">Timer リセット</span>
-                      <span>対象:</span><select class="select-custom" onchange="updateValue('${b.id}','timerId',this.value)">
-                        ${TIMERS.map(t => `<option value="${t}" ${b.timerId==t?'selected':''}>Timer${t}</option>`).join('')}
-                      </select>
-                      <span>: Start(Reset)</span>`;
-          }
-          else if (b.type === 'variable') {
-            inner += `<span class="block-label">ABC 変数</span>
-                      <select class="select-custom" onchange="updateValue('${b.id}','target',this.value)">`;
-            ALL_VARS.forEach(v => inner += `<option value="${v}" ${b.target===v?'selected':''}>${v}</option>`);
-            inner += `</select>
-                      <select class="select-custom" onchange="updateValue('${b.id}','op',this.value)">
-                        <option value="=" ${b.op==='='?'selected':''}>=</option><option value="+=" ${b.op==='+='?'selected':''}>+=</option><option value="-=" ${b.op==='-='?'selected':''}>-=</option>
-                      </select>
-                      <input type="text" class="input-text input-long" value="${String(b.expr ?? '0')}" placeholder="例: Dir, CN8+20, Timer3" oninput="updateValue('${b.id}','expr',this.value)">`;
-          }
-          else if (b.type === 'if' || b.type === 'while') {
-            const optName = (COND_OPTIONS.find(o => o.id === b.condType) || { name: '無条件ループ' }).name;
-            inner += `<span class="block-label">${b.type}</span>
-                      <button class="btn-cond-select" onclick="openModal('${b.id}', '${b.type}')">[条件: ${optName}]</button>`;
-
-            if (b.condType === 'sensor') {
-              inner += `<span>CN</span><input type="number" class="input-text input-num" value="${b.sensorNum ?? 1}" oninput="updateValue('${b.id}','sensorNum',this.value)">
-                        <select class="select-custom" onchange="updateValue('${b.id}','op',this.value)">
-                          <option value=">" ${b.op==='>'?'selected':''}>&gt;</option><option value="<" ${b.op==='<'?'selected':''}>&lt;</option>
-                        </select>
-                        <input type="number" class="input-text input-num" value="${b.val ?? 500}" oninput="updateValue('${b.id}','val',this.value)">`;
-            } else if (b.condType === 'compass') {
-              inner += `<span>目標角度:</span><input type="number" class="input-text input-num" value="${b.angle ?? 50}" oninput="updateValue('${b.id}','angle',this.value)"><span>deg</span>
-                        <span>許容: ±</span><input type="number" class="input-text input-num" value="${b.range ?? 90}" oninput="updateValue('${b.id}','range',this.value)"><span>deg</span>`;
-            } else if (b.condType === 'timer') {
-              inner += `<select class="select-custom" onchange="updateValue('${b.id}','timerId',this.value)">
-                          ${TIMERS.map(t => `<option value="${t}" ${b.timerId==t?'selected':''}>Timer${t}</option>`).join('')}
-                        </select>
-                        <select class="select-custom" onchange="updateValue('${b.id}','op',this.value)">
-                          <option value=">" ${b.op==='>'?'selected':''}>&gt;</option><option value="<" ${b.op==='<'?'selected':''}>&lt;</option>
-                        </select>
-                        <input type="number" step="0.1" class="input-text input-num" value="${b.timerVal ?? 1.0}" oninput="updateValue('${b.id}','timerVal',this.value)"> 秒`;
-            } else if (b.condType === 'variable') {
-              inner += `<select class="select-custom" onchange="updateValue('${b.id}','varName',this.value)">`;
-              ALL_VARS.forEach(v => inner += `<option value="${v}" ${b.varName===v?'selected':''}>${v}</option>`);
-              inner += `</select>
-                        <select class="select-custom" onchange="updateValue('${b.id}','varOp',this.value)">
-                          <option value="==" ${b.varOp==='=='?'selected':''}>==</option><option value="!=" ${b.varOp==='!='?'selected':''}>!=</option>
-                        </select>
-                        <input type="number" class="input-text input-num" value="${b.varVal ?? 0}" oninput="updateValue('${b.id}','varVal',this.value)">`;
-            } else if (b.condType === 'ccode') {
-              inner += `<input type="text" class="input-text input-long" value="${String(b.rawCode ?? 'TRUE')}" oninput="updateValue('${b.id}','rawCode',this.value)">`;
-            }
-          }
-          else if (b.type === 'else') { inner += `<span class="block-label">else</span>`; }
-          else if (b.type === 'endif') { inner += `<span class="block-label">end if</span>`; }
-          else if (b.type === 'endwhile') { inner += `<span class="block-label">end while</span>`; }
-          else if (b.type === 'for') {
-            inner += `<span class="block-label">for ループ</span>
-                      <span>回数:</span>[<span style="color:#00e5ff;">×</span><input type="number" class="input-text input-num" value="${b.count ?? 11}" oninput="updateValue('${b.id}','count',this.value)">]`;
-          }
-          else if (b.type === 'break') { inner += `<span class="block-label">break ループ脱出</span>`; }
-          else if (b.type === 'continue') { inner += `<span class="block-label">continue ループ先頭に戻る</span>`; }
-          else if (b.type === 'subprog') {
-            inner += `<span class="block-label">sub prog</span>
-                      <span>関数呼出:</span><input type="text" class="input-text input-long" value="${String(b.name ?? 'user_sub_1')}" oninput="updateValue('${b.id}','name',this.value)">()`;
-          }
-          else if (b.type === 'ccode') {
-            inner += `<span class="block-label">C code</span>
-                      <input type="text" class="input-text input-long" style="width:280px;" value="${String(b.code ?? '')}" oninput="updateValue('${b.id}','code',this.value)">`;
-          }
-
-          inner += `</div>`;
-
-          inner += `<div class="block-ctrls">
-                      <button class="btn-ctrl" onclick="moveUp(${index})" title="上へ">▲</button>
-                      <button class="btn-ctrl" onclick="moveDown(${index})" title="下へ">▼</button>
-                      <button class="btn-ctrl btn-ctrl-del" onclick="removeBlock(${index})" title="削除">✖</button>
-                    </div>`;
-
-          blockDiv.innerHTML = inner;
-          ws.appendChild(blockDiv);
-
-          if (['if', 'while', 'for'].includes(b.type)) {
-            currentIndent++;
-          }
-        });
-
+      if (programData.length === 0) {
+        emptyMsg.style.display = 'block';
         generateCCode();
-      } catch (err) {
-        logTerminal("[ERR] Workspace Render Exception: " + err.message, "err");
+        return;
       }
+      emptyMsg.style.display = 'none';
+
+      let currentIndent = 0;
+
+      programData.forEach((b, index) => {
+        if (['endif', 'endwhile', 'endfor'].includes(b.type)) {
+          currentIndent = Math.max(0, currentIndent - 1);
+        }
+        let rowIndent = currentIndent;
+        if (['else'].includes(b.type)) {
+          rowIndent = Math.max(0, currentIndent - 1);
+        }
+
+        const blockDiv = document.createElement('div');
+        blockDiv.className = `block b-${getBlockCategory(b.type)}`;
+        blockDiv.style.marginLeft = `${rowIndent * 24}px`;
+
+        const coreDiv = document.createElement('div');
+        coreDiv.className = 'block-core';
+
+        // 各種ブロック内部要素構築
+        if (b.type === 'motor') {
+          coreDiv.innerHTML = `<span class="block-label">Motor</span><span>左:</span>`;
+          coreDiv.appendChild(createNumInput(b.id, 'left', b.left));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>% 右:</span>`);
+          coreDiv.appendChild(createNumInput(b.id, 'right', b.right));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>%</span>`);
+        }
+        else if (b.type === 'mcb6') {
+          coreDiv.innerHTML = `<span class="block-label">6ch MCB</span><span>M1:</span>`;
+          coreDiv.appendChild(createNumInput(b.id, 'm1', b.m1));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>M2:</span>`);
+          coreDiv.appendChild(createNumInput(b.id, 'm2', b.m2));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>M3:</span>`);
+          coreDiv.appendChild(createNumInput(b.id, 'm3', b.m3));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>M4:</span>`);
+          coreDiv.appendChild(createNumInput(b.id, 'm4', b.m4));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>M5:</span>`);
+          coreDiv.appendChild(createSelect(b.id, 'm5', ['BRK', 'NONE'], b.m5));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>M6:</span>`);
+          coreDiv.appendChild(createSelect(b.id, 'm6', ['NONE', 'BRK'], b.m6));
+        }
+        else if (b.type === 'led') {
+          const ledOpts = [{ v: 1, t: 'ON(1)' }, { v: 0, t: 'OFF(0)' }, { v: 2, t: '---(2)' }];
+          coreDiv.innerHTML = `<span class="block-label">LED</span><span>GRN:</span>`;
+          coreDiv.appendChild(createSelectObj(b.id, 'r1', ledOpts, b.r1));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>RED1:</span>`);
+          coreDiv.appendChild(createSelectObj(b.id, 'r2', ledOpts, b.r2));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>RED2:</span>`);
+          coreDiv.appendChild(createSelectObj(b.id, 'r3', ledOpts, b.r3));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>RED3:</span>`);
+          coreDiv.appendChild(createSelectObj(b.id, 'g', ledOpts, b.g));
+        }
+        else if (b.type === 'lcd') {
+          coreDiv.innerHTML = `<span class="block-label">LCD</span><span>行:</span>`;
+          coreDiv.appendChild(createNumInput(b.id, 'line', b.line));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>表示:</span>`);
+          coreDiv.appendChild(createTextInput(b.id, 'text', b.text, true));
+        }
+        else if (b.type === 'out') {
+          coreDiv.innerHTML = `<span class="block-label">OUT</span><span>CN:</span>`;
+          coreDiv.appendChild(createNumInput(b.id, 'port', b.port));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>状態:</span>`);
+          coreDiv.appendChild(createSelect(b.id, 'val', ['HIGH', 'LOW'], b.val));
+        }
+        else if (b.type === 'uss4') {
+          coreDiv.innerHTML = `<span class="block-label">4ch USS</span><span>動作:</span>`;
+          coreDiv.appendChild(createSelect(b.id, 'cmd', ['START'], b.cmd, ['muss: on (Start)']));
+        }
+        else if (b.type === 'tjcom') {
+          coreDiv.innerHTML = `<span class="block-label">Sub I/O</span><span>I/O Port:</span>`;
+          coreDiv.appendChild(createNumInput(b.id, 'subPort', b.subPort));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>動作:</span><span style="color:#00e5ff;">Start</span>`);
+        }
+        else if (b.type === 'uart') {
+          coreDiv.innerHTML = `<span class="block-label">UART</span><span>[Tx: USB]:</span>`;
+          coreDiv.appendChild(createTextInput(b.id, 'data', b.data, true));
+        }
+        else if (b.type === 'delay') {
+          coreDiv.innerHTML = `<span class="block-label">Wait</span>`;
+          coreDiv.appendChild(createNumInput(b.id, 'time', b.time, 0.1));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>秒</span>`);
+        }
+        else if (b.type === 'timer') {
+          coreDiv.innerHTML = `<span class="block-label">Timer リセット</span><span>対象:</span>`;
+          coreDiv.appendChild(createSelect(b.id, 'timerId', [1, 2, 3, 4], b.timerId, ['Timer1', 'Timer2', 'Timer3', 'Timer4']));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>: Start(Reset)</span>`);
+        }
+        else if (b.type === 'variable') {
+          coreDiv.innerHTML = `<span class="block-label">ABC 変数</span>`;
+          coreDiv.appendChild(createSelect(b.id, 'target', ALL_VARS, b.target));
+          coreDiv.appendChild(createSelect(b.id, 'op', ['=', '+=', '-='], b.op));
+          coreDiv.appendChild(createTextInput(b.id, 'expr', b.expr, true));
+        }
+        else if (b.type === 'if' || b.type === 'while') {
+          const optName = (COND_OPTIONS.find(o => o.id === b.condType) || { name: '無条件ループ' }).name;
+          coreDiv.innerHTML = `<span class="block-label">${b.type}</span>`;
+          
+          const condBtn = document.createElement('button');
+          condBtn.className = 'btn-cond-select';
+          condBtn.type = 'button';
+          condBtn.textContent = `[条件: ${optName}]`;
+          condBtn.addEventListener('click', () => openModal(b.id, b.type));
+          coreDiv.appendChild(condBtn);
+
+          if (b.condType === 'sensor') {
+            coreDiv.insertAdjacentHTML('beforeend', `<span>CN</span>`);
+            coreDiv.appendChild(createNumInput(b.id, 'sensorNum', b.sensorNum || 1));
+            coreDiv.appendChild(createSelect(b.id, 'op', ['>', '<'], b.op));
+            coreDiv.appendChild(createNumInput(b.id, 'val', b.val || 500));
+          } else if (b.condType === 'compass') {
+            coreDiv.insertAdjacentHTML('beforeend', `<span>目標角度:</span>`);
+            coreDiv.appendChild(createNumInput(b.id, 'angle', b.angle || 50));
+            coreDiv.insertAdjacentHTML('beforeend', `<span>deg 許容: ±</span>`);
+            coreDiv.appendChild(createNumInput(b.id, 'range', b.range || 90));
+            coreDiv.insertAdjacentHTML('beforeend', `<span>deg</span>`);
+          } else if (b.condType === 'timer') {
+            coreDiv.appendChild(createSelect(b.id, 'timerId', [1, 2, 3, 4], b.timerId, ['Timer1', 'Timer2', 'Timer3', 'Timer4']));
+            coreDiv.appendChild(createSelect(b.id, 'op', ['>', '<'], b.op));
+            coreDiv.appendChild(createNumInput(b.id, 'timerVal', b.timerVal || 1.0, 0.1));
+            coreDiv.insertAdjacentHTML('beforeend', `<span>秒</span>`);
+          } else if (b.condType === 'variable') {
+            coreDiv.appendChild(createSelect(b.id, 'varName', ALL_VARS, b.varName));
+            coreDiv.appendChild(createSelect(b.id, 'varOp', ['==', '!='], b.varOp));
+            coreDiv.appendChild(createNumInput(b.id, 'varVal', b.varVal || 0));
+          } else if (b.condType === 'ccode') {
+            coreDiv.appendChild(createTextInput(b.id, 'rawCode', b.rawCode || 'TRUE', true));
+          }
+        }
+        else if (b.type === 'else') { coreDiv.innerHTML = `<span class="block-label">else</span>`; }
+        else if (b.type === 'endif') { coreDiv.innerHTML = `<span class="block-label">end if</span>`; }
+        else if (b.type === 'endwhile') { coreDiv.innerHTML = `<span class="block-label">end while</span>`; }
+        else if (b.type === 'for') {
+          coreDiv.innerHTML = `<span class="block-label">for ループ</span><span>回数: [<span style="color:#00e5ff;">×</span></span>`;
+          coreDiv.appendChild(createNumInput(b.id, 'count', b.count || 11));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>]</span>`);
+        }
+        else if (b.type === 'break') { coreDiv.innerHTML = `<span class="block-label">break ループ脱出</span>`; }
+        else if (b.type === 'continue') { coreDiv.innerHTML = `<span class="block-label">continue ループ先頭に戻る</span>`; }
+        else if (b.type === 'subprog') {
+          coreDiv.innerHTML = `<span class="block-label">sub prog</span><span>関数呼出:</span>`;
+          coreDiv.appendChild(createTextInput(b.id, 'name', b.name || 'user_sub_1', true));
+          coreDiv.insertAdjacentHTML('beforeend', `<span>()</span>`);
+        }
+        else if (b.type === 'ccode') {
+          coreDiv.innerHTML = `<span class="block-label">C code</span>`;
+          coreDiv.appendChild(createTextInput(b.id, 'code', b.code, true));
+        }
+
+        // 操作ボタン群構築
+        const ctrlsDiv = document.createElement('div');
+        ctrlsDiv.className = 'block-ctrls';
+
+        const btnUp = document.createElement('button');
+        btnUp.className = 'btn-ctrl';
+        btnUp.type = 'button';
+        btnUp.title = '上へ';
+        btnUp.textContent = '▲';
+        btnUp.addEventListener('click', () => moveUp(index));
+
+        const btnDown = document.createElement('button');
+        btnDown.className = 'btn-ctrl';
+        btnDown.type = 'button';
+        btnDown.title = '下へ';
+        btnDown.textContent = '▼';
+        btnDown.addEventListener('click', () => moveDown(index));
+
+        const btnDel = document.createElement('button');
+        btnDel.className = 'btn-ctrl btn-ctrl-del';
+        btnDel.type = 'button';
+        btnDel.title = '削除';
+        btnDel.textContent = '✖';
+        btnDel.addEventListener('click', () => removeBlock(index));
+
+        ctrlsDiv.appendChild(btnUp);
+        ctrlsDiv.appendChild(btnDown);
+        ctrlsDiv.appendChild(btnDel);
+
+        blockDiv.appendChild(coreDiv);
+        blockDiv.appendChild(ctrlsDiv);
+        ws.appendChild(blockDiv);
+
+        if (['if', 'while', 'for'].includes(b.type)) {
+          currentIndent++;
+        }
+      });
+
+      generateCCode();
+    }
+
+    // 安全なDOMヘルパー関数群
+    function createNumInput(id, key, val, step = 1) {
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.className = 'input-text input-num';
+      input.value = val !== undefined ? val : 0;
+      if (step !== 1) input.step = step;
+      input.addEventListener('input', (e) => updateValue(id, key, e.target.value));
+      return input;
+    }
+
+    function createTextInput(id, key, val, isLong = false) {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = `input-text ${isLong ? 'input-long' : ''}`;
+      input.value = val || '';
+      input.addEventListener('input', (e) => updateValue(id, key, e.target.value));
+      return input;
+    }
+
+    function createSelect(id, key, optionsArr, currentVal, labelsArr = null) {
+      const select = document.createElement('select');
+      select.className = 'select-custom';
+      optionsArr.forEach((opt, idx) => {
+        const option = document.createElement('option');
+        option.value = opt;
+        option.textContent = labelsArr ? labelsArr[idx] : opt;
+        if (String(opt) === String(currentVal)) option.selected = true;
+        select.appendChild(option);
+      });
+      select.addEventListener('change', (e) => updateValue(id, key, e.target.value));
+      return select;
+    }
+
+    function createSelectObj(id, key, optionsObjArr, currentVal) {
+      const select = document.createElement('select');
+      select.className = 'select-custom';
+      optionsObjArr.forEach(obj => {
+        const option = document.createElement('option');
+        option.value = obj.v;
+        option.textContent = obj.t;
+        if (String(obj.v) === String(currentVal)) option.selected = true;
+        select.appendChild(option);
+      });
+      select.addEventListener('change', (e) => updateValue(id, key, e.target.value));
+      return select;
     }
 
     function getBlockCategory(type) {
@@ -993,124 +1111,119 @@
       return 'code';
     }
 
-    // ★★★ 大仙純正構文 (D18_User.c) への完全一致 Cコード生成エンジン ★★★
+    // 大仙純正 Cコード生成エンジン
     function generateCCode() {
-      try {
-        let code = `<span class="comment">//--------------------------------------------------------------------------------\n`;
-        code += `// TJ3B : D_USER.c\n`;
-        code += `// MCU:18F26Q10 Flash:64KB, SRAM:3615 FOSC:32MHz\n`;
-        code += `//\n`;
-        code += `// (C)2005-2026 DAISEN                                            daisendenshi.com\n`;
-        code += `//--------------------------------------------------------------------------------\n`;
-        code += `// Title: Main - [ NewFile-00 ]\n`;
-        code += `// Build: C-Style for TJ3B   [ Ver.20260304 ] - [BuildCsy26Q_V251205]\n`;
-        code += `//--------------------------------------------------------------------------------</span>\n`;
-        code += `<span class="kw">#define</span> D18_USER\n`;
-        code += `<span class="kw">#include</span> <span class="num">"D18_MAIN.h"</span>\n`;
-        code += `<span class="kw">#include</span> <span class="num">"D18_TIO.h"</span>\n`;
-        code += `<span class="kw">#include</span> <span class="num">"D18_SIO.h"</span>\n`;
-        code += `<span class="kw">#include</span> <span class="num">"D18_FIO.h"</span>\n`;
-        code += `<span class="kw">#include</span> <span class="num">"D18_I2C.h"</span>\n`;
-        code += `<span class="kw">#include</span> <span class="num">"D18_USER.h"</span>\n`;
-        code += `<span class="comment">//--------------------------------------------------------------------------------\n`;
-        code += `// Functions\n`;
-        code += `//--------------------------------------------------------------------------------</span>\n`;
-        code += `<span class="kw">void</span> <span class="func">user_sub_1</span>(<span class="kw">void</span>);\n`;
-        code += `<span class="kw">void</span> <span class="func">user_main</span>(<span class="kw">void</span>);\n`;
-        code += `<span class="comment">//--------------------------------------------------------------------------------\n`;
-        code += `// Program Name : NewFile-01.C\n`;
-        code += `//--------------------------------------------------------------------------------</span>\n`;
-        code += `<span class="kw">void</span> <span class="func">user_sub_1</span>(<span class="kw">void</span>)\n{\n}\n`;
-        code += `<span class="comment">//--------------------------------------------------------------------------------\n`;
-        code += `// Program Name : NewFile-00.C\n`;
-        code += `//--------------------------------------------------------------------------------</span>\n`;
-        code += `<span class="kw">void</span> <span class="func">user_main</span>(<span class="kw">void</span>)\n{\n`;
-        code += `  <span class="kw">int</span> n1;\n`;
+      let code = `<span class="comment">//--------------------------------------------------------------------------------\n`;
+      code += `// TJ3B : D_USER.c\n`;
+      code += `// MCU:18F26Q10 Flash:64KB, SRAM:3615 FOSC:32MHz\n`;
+      code += `//\n`;
+      code += `// (C)2005-2026 DAISEN                                            daisendenshi.com\n`;
+      code += `//--------------------------------------------------------------------------------\n`;
+      code += `// Title: Main - [ NewFile-00 ]\n`;
+      code += `// Build: C-Style for TJ3B   [ Ver.20260304 ] - [BuildCsy26Q_V251205]\n`;
+      code += `//--------------------------------------------------------------------------------</span>\n`;
+      code += `<span class="kw">#define</span> D18_USER\n`;
+      code += `<span class="kw">#include</span> <span class="num">"D18_MAIN.h"</span>\n`;
+      code += `<span class="kw">#include</span> <span class="num">"D18_TIO.h"</span>\n`;
+      code += `<span class="kw">#include</span> <span class="num">"D18_SIO.h"</span>\n`;
+      code += `<span class="kw">#include</span> <span class="num">"D18_FIO.h"</span>\n`;
+      code += `<span class="kw">#include</span> <span class="num">"D18_I2C.h"</span>\n`;
+      code += `<span class="kw">#include</span> <span class="num">"D18_USER.h"</span>\n`;
+      code += `<span class="comment">//--------------------------------------------------------------------------------\n`;
+      code += `// Functions\n`;
+      code += `//--------------------------------------------------------------------------------</span>\n`;
+      code += `<span class="kw">void</span> <span class="func">user_sub_1</span>(<span class="kw">void</span>);\n`;
+      code += `<span class="kw">void</span> <span class="func">user_main</span>(<span class="kw">void</span>);\n`;
+      code += `<span class="comment">//--------------------------------------------------------------------------------\n`;
+      code += `// Program Name : NewFile-01.C\n`;
+      code += `//--------------------------------------------------------------------------------</span>\n`;
+      code += `<span class="kw">void</span> <span class="func">user_sub_1</span>(<span class="kw">void</span>)\n{\n}\n`;
+      code += `<span class="comment">//--------------------------------------------------------------------------------\n`;
+      code += `// Program Name : NewFile-00.C\n`;
+      code += `//--------------------------------------------------------------------------------</span>\n`;
+      code += `<span class="kw">void</span> <span class="func">user_main</span>(<span class="kw">void</span>)\n{\n`;
+      code += `  <span class="kw">int</span> n1;\n`;
 
-        let indentLevel = 1;
+      let indentLevel = 1;
 
-        programData.forEach(b => {
-          if (['endif', 'endwhile', 'endfor'].includes(b.type)) indentLevel = Math.max(1, indentLevel - 1);
-          if (['else'].includes(b.type)) indentLevel = Math.max(1, indentLevel - 1);
+      programData.forEach(b => {
+        if (['endif', 'endwhile', 'endfor'].includes(b.type)) indentLevel = Math.max(1, indentLevel - 1);
+        if (['else'].includes(b.type)) indentLevel = Math.max(1, indentLevel - 1);
 
-          let spacing = "  ".repeat(indentLevel);
+        let spacing = "  ".repeat(indentLevel);
 
-          switch (b.type) {
-            case 'motor':
-              code += `${spacing}<span class="func">motor</span>(<span class="num">${b.left ?? 0}</span>, <span class="num">${b.right ?? 0}</span>);\n`; break;
-            case 'mcb6':
-              let m5val = b.m5 === 'BRK' ? 'MCB_BRK' : (b.m5 ?? '999');
-              let m6val = b.m6 === 'NONE' ? '999' : (b.m6 ?? '999');
-              code += `${spacing}<span class="func">i2c_set6chMCB</span>( <span class="num">${b.m1 ?? 0}</span>,<span class="num">${b.m2 ?? 0}</span>, <span class="num">${b.m3 ?? 0}</span>,<span class="num">${b.m4 ?? 0}</span>,${m5val},<span class="num">${m6val}</span>);\n`; break;
-            case 'led':
-              code += `${spacing}<span class="func">out_LEDs</span>(<span class="num">${b.r1 ?? 1}${b.r2 ?? 0}${b.r3 ?? 0}${b.g ?? 0}</span>);\n`; break;
-            case 'lcd':
-              code += `${spacing}<span class="func">lcd_puts_data</span>((<span class="kw">char</span> *)<span class="num">"L${b.line ?? 1}:${String(b.text ?? '')}"</span>, <span class="num">10267</span>, <span class="num">311410</span>);\n`; break;
-            case 'out':
-              code += `${spacing}<span class="func">out_AIO</span>(CN<span class="num">${b.port ?? 1}</span>, ${b.val ?? 'HIGH'});\n`; break;
-            case 'uss4':
-              code += `${spacing}<span class="func">i2c_setDSR1608</span>(I2C_WCMD_START);\n`; break;
-            case 'tjcom':
-              code += `${spacing}<span class="func">subio_start</span>(<span class="num">${b.subPort ?? 1}</span>);\n`; break;
-            case 'uart':
-              code += `${spacing}<span class="func">tx_uart</span>((<span class="kw">char</span> *)<span class="num">"${String(b.data ?? '')}"</span>, <span class="num">100000</span>, <span class="num">0</span>, <span class="num">0</span>);\n`; break;
-            case 'delay':
-              code += `${spacing}<span class="func">wait_ms</span>(<span class="num">${Math.floor((b.time ?? 1.0) * 1000)}</span>);\n`; break;
-            case 'timer':
-              code += `${spacing}<span class="func">clr_timer</span>(T<span class="num">${b.timerId ?? 1}</span>);\n`; break;
-            case 'variable':
-              let exprCode = String(b.expr ?? '0');
-              if (exprCode.toLowerCase() === 'dir') {
-                exprCode = '<span class="func">i2c_getDSR1603</span>(DIR)';
-              } else if (exprCode.toLowerCase().startsWith('timer')) {
-                let tNum = exprCode.replace(/timer/i, '');
-                exprCode = `<span class="func">get_timer</span>(T<span class="num">${tNum}</span>)`;
-              } else {
-                exprCode = exprCode.replace(/cn([1-9]|10)/gi, (m, p1) => `gAD[CN<span class="num">${p1}</span>]`);
-              }
-              code += `${spacing}gV[VAR_${b.target ?? 'A'}] ${b.op ?? '='} ${exprCode};\n`; break;
-            case 'while':
-              let whileCond = "<span class="kw">TRUE</span>";
-              if (b.condType === 'sensor') whileCond = `gAD[CN<span class="num">${b.sensorNum ?? 1}</span>] ${b.op ?? '>'} <span class="num">${b.val ?? 500}</span>`;
-              else if (b.condType === 'compass') whileCond = `<span class="func">i2c_hitDSR1603</span>(DIR, <span class="num">${b.angle || 50}</span>, <span class="num">${b.range || 90}</span>)`;
-              else if (b.condType === 'timer') whileCond = `<span class="func">get_timer</span>(T<span class="num">${b.timerId ?? 1}</span>) ${b.op ?? '>'} <span class="num">${b.timerVal ?? 1.0}</span>`;
-              else if (b.condType === 'variable') whileCond = `gV[VAR_${b.varName ?? 'A'}] ${b.varOp ?? '=='} <span class="num">${b.varVal ?? 0}</span>`;
-              else if (b.condType === 'ccode') whileCond = String(b.rawCode ?? 'TRUE');
-              code += `${spacing}<span class="kw">while</span> (${whileCond}) {\n`; indentLevel++; break;
-            case 'endwhile':
-              code += `${spacing}}\n`; break;
-            case 'for':
-              code += `${spacing}<span class="kw">for</span> (n1 = <span class="num">0</span>; n1 < <span class="num">${b.count || 11}</span>; n1++) {\n`; indentLevel++; break;
-            case 'endfor':
-              code += `${spacing}}\n`; break;
-            case 'break':
-              code += `${spacing}<span class="kw">break</span>;\n`; break;
-            case 'continue':
-              code += `${spacing}<span class="kw">continue</span>;\n`; break;
-            case 'subprog':
-              code += `${spacing}<span class="func">${String(b.name ?? 'user_sub_1')}</span>();\n`; break;
-            case 'ccode':
-              code += `${spacing}${String(b.code ?? '')}\n`; break;
-            case 'if':
-              let ifCond = "<span class="kw">TRUE</span>";
-              if (b.condType === 'sensor') ifCond = `gAD[CN<span class="num">${b.sensorNum ?? 1}</span>] ${b.op ?? '>'} <span class="num">${b.val ?? 500}</span>`;
-              else if (b.condType === 'compass') ifCond = `<span class="func">i2c_hitDSR1603</span>(DIR, <span class="num">${b.angle || 50}</span>, <span class="num">${b.range || 90}</span>)`;
-              else if (b.condType === 'timer') ifCond = `<span class="func">get_timer</span>(T<span class="num">${b.timerId ?? 1}</span>) ${b.op ?? '>'} <span class="num">${b.timerVal ?? 1.0}</span>`;
-              else if (b.condType === 'variable') ifCond = `gV[VAR_${b.varName ?? 'A'}] ${b.varOp ?? '=='} <span class="num">${b.varVal ?? 0}</span>`;
-              else if (b.condType === 'ccode') ifCond = String(b.rawCode ?? 'TRUE');
-              code += `${spacing}<span class="kw">if</span> (${ifCond}) {\n`; indentLevel++; break;
-            case 'else':
-              code += `${spacing}} <span class="kw">else</span> {\n`; indentLevel++; break;
-            case 'endif':
-              code += `${spacing}}\n`; break;
-          }
-        });
+        switch (b.type) {
+          case 'motor':
+            code += `${spacing}<span class="func">motor</span>(<span class="num">${b.left}</span>, <span class="num">${b.right}</span>);\n`; break;
+          case 'mcb6':
+            let m5val = b.m5 === 'BRK' ? 'MCB_BRK' : b.m5;
+            let m6val = b.m6 === 'NONE' ? '999' : b.m6;
+            code += `${spacing}<span class="func">i2c_set6chMCB</span>( <span class="num">${b.m1}</span>,<span class="num">${b.m2}</span>, <span class="num">${b.m3}</span>,<span class="num">${b.m4}</span>,${m5val},<span class="num">${m6val}</span>);\n`; break;
+          case 'led':
+            code += `${spacing}<span class="func">out_LEDs</span>(<span class="num">${b.r1}${b.r2}${b.r3}${b.g}</span>);\n`; break;
+          case 'lcd':
+            code += `${spacing}<span class="func">lcd_puts_data</span>((<span class="kw">char</span> *)<span class="num">"L${b.line}:${b.text}"</span>, <span class="num">10267</span>, <span class="num">311410</span>);\n`; break;
+          case 'out':
+            code += `${spacing}<span class="func">out_AIO</span>(CN<span class="num">${b.port}</span>, ${b.val});\n`; break;
+          case 'uss4':
+            code += `${spacing}<span class="func">i2c_setDSR1608</span>(I2C_WCMD_START);\n`; break;
+          case 'tjcom':
+            code += `${spacing}<span class="func">subio_start</span>(<span class="num">${b.subPort}</span>);\n`; break;
+          case 'uart':
+            code += `${spacing}<span class="func">tx_uart</span>((<span class="kw">char</span> *)<span class="num">"${b.data}"</span>, <span class="num">100000</span>, <span class="num">0</span>, <span class="num">0</span>);\n`; break;
+          case 'delay':
+            code += `${spacing}<span class="func">wait_ms</span>(<span class="num">${Math.floor(b.time * 1000)}</span>);\n`; break;
+          case 'timer':
+            code += `${spacing}<span class="func">clr_timer</span>(T<span class="num">${b.timerId}</span>);\n`; break;
+          case 'variable':
+            let exprCode = b.expr;
+            if (exprCode.toLowerCase() === 'dir') exprCode = '<span class="func">i2c_getDSR1603</span>(DIR)';
+            else if (exprCode.toLowerCase().startsWith('timer')) {
+              let tNum = exprCode.replace(/timer/i, '');
+              exprCode = `<span class="func">get_timer</span>(T<span class="num">${tNum}</span>)`;
+            } else {
+              exprCode = exprCode.replace(/cn([1-9]|10)/gi, (m, p1) => `gAD[CN<span class="num">${p1}</span>]`);
+            }
+            code += `${spacing}gV[VAR_${b.target}] ${b.op} ${exprCode};\n`; break;
+          case 'while':
+            let whileCond = "<span class="kw">TRUE</span>";
+            if (b.condType === 'sensor') whileCond = `gAD[CN<span class="num">${b.sensorNum}</span>] ${b.op} <span class="num">${b.val}</span>`;
+            else if (b.condType === 'compass') whileCond = `<span class="func">i2c_hitDSR1603</span>(DIR, <span class="num">${b.angle || 50}</span>, <span class="num">${b.range || 90}</span>)`;
+            else if (b.condType === 'timer') whileCond = `<span class="func">get_timer</span>(T<span class="num">${b.timerId}</span>) ${b.op} <span class="num">${b.timerVal}</span>`;
+            else if (b.condType === 'variable') whileCond = `gV[VAR_${b.varName}] ${b.varOp} <span class="num">${b.varVal}</span>`;
+            else if (b.condType === 'ccode') whileCond = b.rawCode;
+            code += `${spacing}<span class="kw">while</span> (${whileCond}) {\n`; indentLevel++; break;
+          case 'endwhile':
+            code += `${spacing}}\n`; break;
+          case 'for':
+            code += `${spacing}<span class="kw">for</span> (n1 = <span class="num">0</span>; n1 < <span class="num">${b.count || 11}</span>; n1++) {\n`; indentLevel++; break;
+          case 'endfor':
+            code += `${spacing}}\n`; break;
+          case 'break':
+            code += `${spacing}<span class="kw">break</span>;\n`; break;
+          case 'continue':
+            code += `${spacing}<span class="kw">continue</span>;\n`; break;
+          case 'subprog':
+            code += `${spacing}<span class="func">${b.name || 'user_sub_1'}</span>();\n`; break;
+          case 'ccode':
+            code += `${spacing}${b.code}\n`; break;
+          case 'if':
+            let ifCond = "<span class="kw">TRUE</span>";
+            if (b.condType === 'sensor') ifCond = `gAD[CN<span class="num">${b.sensorNum}</span>] ${b.op} <span class="num">${b.val}</span>`;
+            else if (b.condType === 'compass') ifCond = `<span class="func">i2c_hitDSR1603</span>(DIR, <span class="num">${b.angle || 50}</span>, <span class="num">${b.range || 90}</span>)`;
+            else if (b.condType === 'timer') ifCond = `<span class="func">get_timer</span>(T<span class="num">${b.timerId}</span>) ${b.op} <span class="num">${b.timerVal}</span>`;
+            else if (b.condType === 'variable') ifCond = `gV[VAR_${b.varName}] ${b.varOp} <span class="num">${b.varVal}</span>`;
+            else if (b.condType === 'ccode') ifCond = b.rawCode;
+            code += `${spacing}<span class="kw">if</span> (${ifCond}) {\n`; indentLevel++; break;
+          case 'else':
+            code += `${spacing}} <span class="kw">else</span> {\n`; indentLevel++; break;
+          case 'endif':
+            code += `${spacing}}\n`; break;
+        }
+      });
 
-        code += `}`;
-        document.getElementById('codeText').innerHTML = code;
-      } catch (err) {
-        logTerminal("[ERR] Code Generation Exception: " + err.message, "err");
-      }
+      code += `}`;
+      document.getElementById('codeText').innerHTML = code;
     }
 
     function downloadCFile() {
@@ -1124,7 +1237,7 @@
       a.download = 'D18_User.c';
       a.click();
       URL.revokeObjectURL(url);
-      logTerminal("[SYS] Exported 'D18_User.c'.", "sys");
+      logTerminal("[SYS] Source code exported as 'D18_User.c'.", "sys");
     }
 
     function logTerminal(msg, type = "sys") {
@@ -1180,7 +1293,7 @@
       let arr = new Uint8Array(12);
       if (b.type === 'motor') { arr[0] = 1; arr[1] = b.left < 0 ? 256 + b.left : b.left; arr[2] = b.right < 0 ? 256 + b.right : b.right; }
       else if (b.type === 'mcb6') { arr[0] = 11; arr[1] = b.m1; arr[2] = b.m2; arr[3] = b.m3; arr[4] = b.m4; }
-      else if (b.type === 'delay') { arr[0] = 2; let ms = Math.floor((b.time || 1.0) * 1000); arr[1] = (ms >> 8) & 0xFF; arr[2] = ms & 0xFF; }
+      else if (b.type === 'delay') { arr[0] = 2; let ms = Math.floor(b.time * 1000); arr[1] = (ms >> 8) & 0xFF; arr[2] = ms & 0xFF; }
       else if (b.type === 'timer') { arr[0] = 12; arr[1] = b.timerId; }
       else if (b.type === 'led') { arr[0] = 3; arr[1] = parseInt(b.r1); arr[2] = parseInt(b.r2); }
       else if (b.type === 'if') { arr[0] = 4; arr[1] = 1; arr[2] = b.sensorNum || 1; arr[4] = ((b.val || 500) >> 8) & 0xFF; arr[5] = (b.val || 500) & 0xFF; }
@@ -1224,7 +1337,7 @@
       a.download = 'Custom_StyleX.hex';
       a.click();
       URL.revokeObjectURL(url);
-      logTerminal("[SYS] HEX downloaded as 'Custom_StyleX.hex'.", "sys");
+      logTerminal("[SYS] Standalone HEX downloaded as 'Custom_StyleX.hex'.", "sys");
     }
 
     async function flashCustomHexToRobot() {
@@ -1273,8 +1386,6 @@
       };
       reader.readAsText(file);
     }
-
-    updateWorkspace();
   </script>
 </body>
 </html>
