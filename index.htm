@@ -87,7 +87,7 @@
     border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.15s ease;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -98,7 +98,7 @@
   }
 
   .btn:active {
-    transform: scale(0.96) translateY(1px) !important;
+    transform: scale(0.95) translateY(1px) !important;
   }
 
   .btn-active {
@@ -108,7 +108,7 @@
     border: 1px solid rgba(0, 229, 255, 0.5);
   }
   .btn-active:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: 0 0 20px rgba(0, 229, 255, 0.7);
   }
 
@@ -155,6 +155,7 @@
     display: flex;
     flex-direction: column;
     gap: 18px;
+    z-index: 5;
   }
 
   .palette::-webkit-scrollbar, .workspace::-webkit-scrollbar, .code-area::-webkit-scrollbar, .terminal-log::-webkit-scrollbar {
@@ -212,7 +213,7 @@
     font-weight: 600;
     font-size: 0.78rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -226,7 +227,7 @@
     transform: translateX(2px);
   }
   .palette-btn:active {
-    transform: scale(0.96) translateX(2px);
+    transform: scale(0.95) translateX(2px);
   }
   
   .badge-icon {
@@ -264,6 +265,7 @@
     flex-direction: column;
     gap: 8px;
     position: relative;
+    z-index: 1;
   }
   
   .ws-empty {
@@ -288,7 +290,7 @@
     justify-content: space-between;
     gap: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
     max-width: 950px;
     position: relative;
@@ -330,7 +332,8 @@
     cursor: pointer;
     font-weight: bold;
     font-size: 0.8rem;
-    transition: all 0.2s;
+    transition: all 0.15s;
+    user-select: none;
   }
   .btn-cond-select:hover {
     background: rgba(0, 229, 255, 0.25);
@@ -419,6 +422,7 @@
     border-left: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
+    z-index: 5;
   }
   .panel-tab {
     padding: 10px 16px;
@@ -469,17 +473,25 @@
   .log-rx { color: #8be9fd; }
   .log-tx { color: #f1fa8c; }
 
-  /* モーダルダイアログ */
+  /* ⚡ モーダルダイアログ (ポインターイベント完全制御) */
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(5px);
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none; /* ★非表示時は絶対にクリック判定を阻害させない */
+    transition: opacity 0.2s ease;
   }
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto; /* ★表示時のみイベントを通過させる */
+  }
+
   .modal-box {
     background: #111622;
     border: 2px solid var(--border-color);
@@ -516,13 +528,13 @@
     gap: 10px;
     font-weight: 600;
     font-size: 0.82rem;
-    transition: all 0.2s;
+    transition: all 0.15s;
     user-select: none;
   }
   .modal-btn:hover {
     background: rgba(0, 229, 255, 0.15);
     border-color: #00e5ff;
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
   .modal-cancel {
     align-self: center;
@@ -534,6 +546,7 @@
     cursor: pointer;
     font-weight: bold;
     font-size: 0.8rem;
+    user-select: none;
   }
   .modal-cancel:hover { background: rgba(255,255,255,0.1); color: #fff; }
 </style>
@@ -624,13 +637,13 @@
           <span id="portStatus" style="color:#ef4444;">DISCONNECTED</span>
         </div>
         <div class="terminal-log" id="termLog">
-          <span class="log-sys">[SYS] Style-X Engine Initialized. Protected Exception Handlers Active.</span>
+          <span class="log-sys">[SYS] Style-X Engine Initialized. Event Queue Protection Active.</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 条件選択モーダル -->
+  <!-- 条件選択モーダルダイアログ -->
   <div class="modal-overlay" id="condModal">
     <div class="modal-box">
       <div class="modal-title">条件選択</div>
@@ -664,6 +677,13 @@
       { id: 'ccode', name: 'C code 条件を記述', icon: '💻' }
     ];
 
+    // 非同期で安全にワークスペースを描画（イベント競合の回避）
+    function scheduleWorkspaceUpdate() {
+      requestAnimationFrame(() => {
+        updateWorkspace();
+      });
+    }
+
     function addBlock(type) {
       try {
         const now = Date.now();
@@ -675,7 +695,7 @@
           const bEndIf = { id: 'block_' + now + '_3', type: 'endif', groupId: groupId };
 
           programData.push(bIf, bElse, bEndIf);
-          updateWorkspace();
+          scheduleWorkspaceUpdate();
           openModal(bIf.id, 'if');
           return;
         }
@@ -686,7 +706,7 @@
           const bEndWhile = { id: 'block_' + now + '_2', type: 'endwhile', groupId: groupId };
 
           programData.push(bWhile, bEndWhile);
-          updateWorkspace();
+          scheduleWorkspaceUpdate();
           openModal(bWhile.id, 'while');
           return;
         }
@@ -708,7 +728,7 @@
         else if (type === 'ccode') { block.code = '// 自作コード'; }
 
         programData.push(block);
-        updateWorkspace();
+        scheduleWorkspaceUpdate();
       } catch (err) {
         logTerminal("[ERR] addBlock: " + err.message, "err");
       }
@@ -724,7 +744,7 @@
         } else {
           programData.splice(index, 1);
         }
-        updateWorkspace();
+        scheduleWorkspaceUpdate();
       } catch (err) {
         logTerminal("[ERR] removeBlock: " + err.message, "err");
       }
@@ -732,8 +752,10 @@
 
     function openModal(blockId, blockType) {
       currentTargetBlockId = blockId;
+      const modal = document.getElementById('condModal');
       const grid = document.getElementById('modalGrid');
-      if (!grid) return;
+      if (!modal || !grid) return;
+
       grid.innerHTML = '';
 
       let options = [...COND_OPTIONS];
@@ -749,12 +771,12 @@
         grid.appendChild(btn);
       });
 
-      document.getElementById('condModal').style.display = 'flex';
+      modal.classList.add('active');
     }
 
     function closeModal() {
       const modal = document.getElementById('condModal');
-      if (modal) modal.style.display = 'none';
+      if (modal) modal.classList.remove('active');
       currentTargetBlockId = null;
     }
 
@@ -763,7 +785,7 @@
         let target = programData.find(b => b.id === currentTargetBlockId);
         if (target) {
           target.condType = condId;
-          updateWorkspace();
+          scheduleWorkspaceUpdate();
         }
       }
       closeModal();
@@ -794,7 +816,7 @@
         let temp = programData[index];
         programData[index] = programData[index - 1];
         programData[index - 1] = temp;
-        updateWorkspace();
+        scheduleWorkspaceUpdate();
       }
     }
 
@@ -803,14 +825,14 @@
         let temp = programData[index];
         programData[index] = programData[index + 1];
         programData[index + 1] = temp;
-        updateWorkspace();
+        scheduleWorkspaceUpdate();
       }
     }
 
     function clearWorkspace() {
       if (confirm("すべてのブロックを削除しますか？")) {
         programData = [];
-        updateWorkspace();
+        scheduleWorkspaceUpdate();
       }
     }
 
@@ -1005,7 +1027,6 @@
       return 'code';
     }
 
-    // 大仙純正構文 (D18_User.c) 生成エンジン
     function generateCCode() {
       try {
         let code = `<span class="comment">//--------------------------------------------------------------------------------\n`;
@@ -1289,7 +1310,7 @@
           const loaded = JSON.parse(e.target.result);
           if (Array.isArray(loaded)) {
             programData = loaded;
-            updateWorkspace();
+            scheduleWorkspaceUpdate();
             logTerminal("[SYS] Workspace reconstructed from .xsy file.", "sys");
           } else {
             alert("無効な .xsy ファイルです。");
@@ -1302,7 +1323,8 @@
       reader.readAsText(file);
     }
 
-    updateWorkspace();
+    // 初回描画
+    scheduleWorkspaceUpdate();
   </script>
 </body>
 </html>
